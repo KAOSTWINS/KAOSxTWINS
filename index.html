@@ -1051,4 +1051,199 @@ ready(function(){addEmailFallbacks();improveArchive();improveStormfall();});
 })();
 </script>
 
+
+<style id="kaos-v19-styles">
+/* One native website voting wall, without iframes or Google scripts. */
+#vote-next{overflow:hidden;background:radial-gradient(circle at 6% 4%,#51274b64,transparent 45%),linear-gradient(140deg,#120d19,#080910 60%,#1d0c1c);}
+#vote-next .shell{max-width:1280px}
+.kaos19-header{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.kaos19-header h2{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(42px,6vw,74px);margin:10px 0;line-height:.93;letter-spacing:.02em}
+.kaos19-header h2 span{color:#ed728e}
+.kaos19-header p{max-width:650px;color:#d2bccb;font:14px/1.7 Inter,Arial,sans-serif}
+.kaos19-chip{border:1px solid #bf7fac6e;background:#281b2d;border-radius:100px;padding:12px 18px;color:#fad6ed;font:800 11px Inter,Arial,sans-serif;letter-spacing:.07em}
+.kaos19-columns{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.85fr);gap:20px;align-items:stretch}
+.kaos19-pane{border:1px solid #8b61713f;background:linear-gradient(140deg,#241525,#110c17);padding:clamp(19px,3.4vw,34px);border-radius:20px;box-shadow:0 20px 65px #0008;min-width:0}
+.kaos19-kicker{font:800 11px Inter,Arial,sans-serif;color:#e2b1ce;letter-spacing:.18em;text-transform:uppercase}
+.kaos19-pane h3{color:white;font:700 clamp(25px,3vw,38px)/1.1 Impact,'Arial Narrow',sans-serif;margin:12px 0 20px}
+.kaos19-options{display:grid;gap:10px}
+.kaos19-choice{display:flex;align-items:center;gap:14px;padding:15px 14px;border:1px solid #69485f83;background:#160f1d;border-radius:13px;cursor:pointer;transition:border .2s,background .2s}
+.kaos19-choice:has(input:checked){border-color:#ffd4ed;background:#42223d}
+.kaos19-choice input{accent-color:#ed83a8;width:17px;height:17px;flex:0 0 auto}
+.kaos19-choice .emoji{font-size:24px}.kaos19-choice .copy{flex:1;min-width:0;display:grid;gap:5px}
+.kaos19-choice strong{color:#fff;font:800 14px/1.3 Inter,Arial,sans-serif}.kaos19-choice small{color:#ccb7c5;font:12px/1.5 Inter,Arial,sans-serif}
+.kaos19-bar{height:7px;background:#473345;border-radius:12px;overflow:hidden;margin-top:7px}.kaos19-bar>div{height:100%;background:linear-gradient(90deg,#e66588,#f3c9a1);border-radius:12px;transition:width .4s}
+.kaos19-percent{font:800 12px Inter,Arial,sans-serif;color:#f9d3e4}.kaos19-button{border:0;border-radius:12px;background:linear-gradient(100deg,#ff91b5,#f8c0e2);color:#2b1221;font:900 13px Inter,Arial,sans-serif;padding:16px 23px;margin-top:18px;cursor:pointer}
+.kaos19-button:disabled{opacity:.55;cursor:wait}.kaos19-status{font:12px/1.6 Inter,Arial,sans-serif;color:#d4bdc9;margin-top:12px;min-height:20px}
+.kaos19-side{display:grid;align-content:space-between;gap:22px}.kaos19-side p{font:13px/1.8 Inter,Arial,sans-serif;color:#d2c0cc}
+.kaos19-side .pinned{border:1px solid #d07b9b59;background:#2c1724;padding:17px;border-radius:12px;color:#ffdeef;font:13px/1.7 Inter,Arial,sans-serif}
+.kaos19-wall{margin-top:22px;padding:clamp(18px,3vw,30px);border:1px solid #9a6c8b5c;border-radius:20px;background:#150e1b}
+.kaos19-wall-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-bottom:19px}
+.kaos19-wall-head h3{font:700 32px Impact,'Arial Narrow',sans-serif;color:#fff;margin:5px 0}
+.kaos19-wall-head p{font:12px/1.6 Inter,Arial,sans-serif;color:#c8b8c6}
+.kaos19-form{display:grid;grid-template-columns:minmax(160px,.65fr) minmax(160px,.4fr);gap:10px;margin-bottom:23px}
+.kaos19-form input,.kaos19-form select,.kaos19-form textarea{width:100%;min-width:0;padding:13px 14px;border:1px solid #6a526a;border-radius:10px;background:#100c17;color:#fff;font:13px Inter,Arial,sans-serif}
+.kaos19-form textarea{grid-column:1/-1;resize:vertical;min-height:105px}.kaos19-form button{justify-self:start;margin-top:0}.kaos19-form .status{align-self:center;color:#d7bfd0;font:11px/1.6 Inter,Arial,sans-serif}
+.kaos19-feed{display:grid;gap:12px;max-height:740px;overflow:auto;padding-right:4px}
+.kaos19-comment{border:1px solid #5b3d5b73;border-radius:13px;background:#211524;padding:17px;min-width:0}
+.kaos19-comment.reply{margin-left:clamp(10px,4vw,44px);border-left:3px solid #b5789b}
+.kaos19-comment-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.kaos19-comment-head strong{color:#fbe6f5;font:800 13px Inter,Arial,sans-serif}
+.kaos19-comment-head .tag{border-radius:100px;background:#55344c;color:#ffd5ea;padding:3px 8px;font-size:10px}
+.kaos19-comment-body{color:#ead8e2;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.7 Inter,Arial,sans-serif}
+.kaos19-comment-buttons{display:flex;gap:10px;margin-top:11px}
+.kaos19-comment-buttons button{border:1px solid #735574;border-radius:8px;background:#311d33;color:#f4d5e8;padding:7px 10px;font-size:11px;cursor:pointer}
+.kaos19-fade{color:#b9a9b8;font-size:11px}.kaos19-error{color:#ffb3bd!important}
+#kaos19-reply-note{margin:0 0 12px;font-size:12px;color:#f3c3e8}
+@media(max-width:900px){.kaos19-columns{grid-template-columns:1fr}.kaos19-side{display:block}.kaos19-side .pinned{margin-top:16px}}
+@media(max-width:650px){#vote-next{padding:58px 0}.kaos19-form{grid-template-columns:1fr}.kaos19-form textarea{grid-column:1}.kaos19-form .status{grid-column:1}.kaos19-header h2{font-size:44px}.kaos19-pane{padding:17px}.kaos19-choice{padding:13px 11px}}
+/* Christmas repair: an actual two-column album feature, gift beside album CTA. */
+#kaos-christmas-special.kaos-xmas{width:100%;max-width:100%;padding:clamp(24px,4vw,44px)!important;border-radius:22px;overflow:hidden;box-sizing:border-box}
+#kaos-christmas-special .kaos-xmas-head{display:grid!important;grid-template-columns:minmax(220px,360px) minmax(0,1fr)!important;align-items:center;column-gap:clamp(25px,5vw,60px)!important;row-gap:18px;min-width:0}
+#kaos-christmas-special .kaos-xmas-head>img{width:100%!important;height:auto!important;max-width:360px!important;max-height:none!important;aspect-ratio:1/1!important;object-fit:cover!important;justify-self:center!important}
+#kaos-christmas-special .kaos-xmas-head>div{min-width:0}
+#kaos-christmas-special .kaos-xmas-head h2{font-size:clamp(34px,4.1vw,67px)!important;line-height:1!important;margin:14px 0}
+#kaos-christmas-special .kaos-xmas-links{display:flex!important;flex-wrap:wrap;align-items:center;gap:11px!important}
+#kaos-christmas-special .kaos-xmas-links a,#kaos-christmas-special .kaos-gift{max-width:100%;white-space:normal;overflow-wrap:anywhere;box-sizing:border-box}
+#kaos-christmas-special .kaos-gift{margin:15px 0 0!important;background:#ffcf8d;color:#1f1717;border:0;max-width:100%;font-weight:900}
+#kaos-christmas-special .kaos-xmas-strip{margin-top:28px!important}
+@media(max-width:720px){#kaos-christmas-special.kaos-xmas{padding:22px 15px!important}#kaos-christmas-special .kaos-xmas-head{grid-template-columns:minmax(0,1fr)!important}#kaos-christmas-special .kaos-xmas-head>img{max-width:min(100%,320px)!important}#kaos-christmas-special .kaos-xmas-head>div{text-align:center}#kaos-christmas-special .kaos-xmas-links{flex-direction:column!important}#kaos-christmas-special .kaos-xmas-links a,#kaos-christmas-special .kaos-gift{width:100%;justify-content:center!important}#kaos-christmas-special .kaos-xmas-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}#kaos-christmas-special .kaos-xmas-flag{font-size:10px;letter-spacing:.11em}#kaos-christmas-special .kaos-xmas-head h2{font-size:clamp(32px,9vw,48px)!important}}
+@media(max-width:400px){#kaos-christmas-special .kaos-xmas-strip{grid-template-columns:1fr!important}}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script id="kaos-v19-community">
+(function(){'use strict';
+const URL='https://wpnsfvfrejykxccmdomi.supabase.co';
+const KEY='sb_publishable_wyqvXssAiXoPnVhzid_wMQ_D9N9LcZn';
+const $=id=>document.getElementById(id);
+let db=null, currentPoll=null, busy=false, replyTo=null, readyForCommunity=false;
+function status(msg,error=false,id='kaos19-status'){const node=$(id);if(node){node.textContent=msg;node.classList.toggle('kaos19-error',error);}}
+function node(tag,css,text){const el=document.createElement(tag);if(css)el.className=css;if(text!=null)el.textContent=String(text);return el;}
+function setPlain(el,txt){if(el)el.textContent=txt;}
+function build(){
+ const section=$('vote-next');if(!section)return;
+ section.innerHTML=`<div class="shell">
+   <div class="kaos19-header"><div><div class="eyebrow">✦ KAOSTWINS · COMMUNITY // SEASON 01</div><h2>YOU PICK. <span>WE PANIC.</span></h2><p>Pick the next bot disaster, watch real votes roll in, and throw your own idea into the comment pit. You may change your vote. Ronan will be filing a complaint.</p></div><div class="kaos19-chip">🗳️ PUBLIC POLL · RESULTS AFTER VOTING</div></div>
+   <div class="kaos19-columns"><div class="kaos19-pane"><div class="kaos19-kicker">✦ OFFICIAL BALLOT BOX</div><h3>CAST YOUR TERRIBLE DECISION</h3><form id="kaos19-vote-form"><div class="kaos19-options" id="kaos19-choices"><p>Connecting to the chaos server…</p></div><button class="kaos19-button" id="kaos19-vote-button" type="submit" disabled>Cast my vote 🐉</button><div class="kaos19-status" id="kaos19-status" role="status" aria-live="polite">Signing in anonymously…</div></form></div>
+   <aside class="kaos19-pane kaos19-side"><div><div class="kaos19-kicker">✦ CURRENT CHAOS</div><h3>THIS IS ON YOU.</h3><p>Results unlock after you vote. The totals refresh automatically while the page is open.</p><p>Each browser keeps one anonymous identity, so you can change your selection without adding another vote. Clearing storage or changing devices can allow additional votes.</p><div class="pinned"><b>📌 Pinned by Zea:</b> “If your idea involves emotionally unavailable men, supernatural disasters or a suspiciously attractive villain, I am listening.” 🖤</div></div><p class="kaos19-fade">Dr♡gon F☆ckers · COMING SOON. Too late to vote against them.</p></aside></div>
+   <div class="kaos19-wall"><div class="kaos19-wall-head"><div><div class="kaos19-kicker">💬 THE COMMENT PIT</div><h3>YOUR IDEAS. OUR PROBLEM.</h3><p>Submit bot ideas here, argue affectionately, or start a campaign for your favourite. Comments are reviewed before they appear.</p></div><span class="kaos19-chip">✦ COMMUNITY WALL</span></div>
+    <div id="kaos19-reply-note" hidden></div>
+    <form id="kaos19-comment-form" class="kaos19-form">
+      <input name="nickname" maxlength="40" minlength="2" aria-label="Nickname" placeholder="Your handle (who do we blame?)" required>
+      <select name="kind" aria-label="Comment type"><option value="idea">💡 Bot idea / suggestion</option><option value="chat">💬 Comment / campaign</option></select>
+      <textarea name="content" minlength="8" maxlength="1200" aria-label="Your comment" placeholder="Pitch your next fictional disaster, or rally the voters…" required></textarea>
+      <button id="kaos19-post-button" class="kaos19-button" disabled type="submit">Submit to the chaos pit ✦</button>
+      <div class="status" id="kaos19-comment-status" role="status" aria-live="polite">Connecting…</div>
+    </form>
+    <div class="kaos19-feed" id="kaos19-feed"><p class="kaos19-fade">Loading the community wall…</p></div>
+   </div></div>`;
+ $('kaos19-vote-form').addEventListener('submit',cast);
+ $('kaos19-comment-form').addEventListener('submit',post);
+ let remembered='';try{remembered=localStorage.getItem('kaos19_nickname')||'';}catch(e){}
+ $('kaos19-comment-form').elements.nickname.value=remembered;
+}
+function drawPoll(data){
+ currentPoll=data;
+ const host=$('kaos19-choices');if(!host||!data)return;
+ host.replaceChildren();
+ const hasVoted=!!data.selected;
+ for(const opt of (data.options||[])){
+  const lab=node('label','kaos19-choice');
+  const input=node('input');input.type='radio';input.name='kaos19-choice';input.value=opt.code;input.checked=opt.code===data.selected;
+  const emoji=node('span','emoji',opt.emoji);
+  const copy=node('span','copy');copy.append(node('strong','',opt.title),node('small','',opt.tagline));
+  if(hasVoted){
+   const line=node('span','kaos19-bar');const fill=node('div');const pct=data.total ? Math.round((Number(opt.count)||0)*100/data.total) : 0;
+   fill.style.width=pct+'%';line.appendChild(fill);copy.appendChild(line);
+   copy.appendChild(node('span','kaos19-percent',pct+'% · '+Number(opt.count||0)+' votes'));
+  }
+  lab.append(input,emoji,copy);host.appendChild(lab);
+ }
+ const btn=$('kaos19-vote-button');btn.disabled=!data.open||!readyForCommunity;
+ btn.textContent=data.open?(hasVoted?'Change my bad decision ↻':'Cast my terrible decision 🐉'):'Voting closed';
+ if(hasVoted)status('Your vote has been counted. Zea is making plans. Ronan is filing a complaint. ✦ '+data.total+' votes in total.');
+ else status('Pick your fate. The results appear after you cast your vote.');
+}
+function explain(err){
+ const msg=String(err?.message||err||'Unknown error');
+ if(/anonymous|disabled|provider/i.test(msg))return 'Enable Anonymous sign-ins in Supabase → Authentication → Providers. '+msg;
+ if(/PGRST202|Could not find the function|schema cache|relation .* does not exist/i.test(msg))return 'Run the provided SQL setup in Supabase SQL Editor first. '+msg;
+ return msg;
+}
+async function call(fn,args){const r=await db.rpc(fn,args||{});if(r.error)throw r.error;return r.data;}
+async function cast(e){
+ e.preventDefault();if(!readyForCommunity||busy)return;
+ const radio=document.querySelector('#kaos19-choices input:checked');if(!radio){status('Pick one first, your ballot cannot be pure vibes.',true);return;}
+ busy=true;$('kaos19-vote-button').disabled=true;status('Sending your questionable decision…');
+ try{const data=await call('kaos_cast_vote',{p_code:radio.value});drawPoll(data);}
+ catch(err){status('Vote not saved: '+explain(err),true);}
+ finally{busy=false;if(currentPoll?.open)$('kaos19-vote-button').disabled=false;}
+}
+function fmtDate(str){try{return new Date(str).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});}catch(e){return ''}}
+function makeComment(c){
+ const el=node('article','kaos19-comment'+(c.parentId?' reply':''));
+ const top=node('div','kaos19-comment-head');top.appendChild(node('strong','',c.nickname));
+ const tag=node('span','tag',c.kind==='idea'?'💡 Bot idea':'💬 Comment');top.appendChild(tag);
+ top.appendChild(node('span','kaos19-fade',fmtDate(c.createdAt)));
+ if(!c.approved)top.appendChild(node('span','tag','⏳ Awaiting approval · only you can see this'));
+ el.appendChild(top);el.appendChild(node('div','kaos19-comment-body',c.content));
+ const buttons=node('div','kaos19-comment-buttons');
+ if(c.approved){
+  const heart=node('button','',c.hearted?'♥ '+c.hearts:'♡ '+c.hearts);heart.type='button';
+  heart.addEventListener('click',async()=>{heart.disabled=true;try{await call('kaos_toggle_heart',{p_comment_id:c.id});await refreshComments();}catch(e){status(explain(e),true,'kaos19-comment-status');heart.disabled=false;}});
+  buttons.appendChild(heart);
+  const reply=node('button','','↳ Reply');reply.type='button';reply.addEventListener('click',()=>{
+    replyTo=c.id;const n=$('kaos19-reply-note');n.hidden=false;n.replaceChildren();n.appendChild(node('span','','Replying to '+c.nickname+' '));
+    const cancel=node('button','','✕ Cancel');cancel.type='button';cancel.style.cssText='color:#f3c3e8;background:none;border:0;cursor:pointer';cancel.addEventListener('click',()=>{replyTo=null;n.hidden=true;});n.appendChild(cancel);
+    $('kaos19-comment-form').elements.content.focus();
+  });buttons.appendChild(reply);
+ }
+ el.appendChild(buttons);return el;
+}
+async function refreshComments(){
+ if(!readyForCommunity)return;
+ try{const data=await call('kaos_comment_feed');const target=$('kaos19-feed');if(!target)return;target.replaceChildren();
+  if(!data?.length){target.appendChild(node('p','kaos19-fade','The comment pit is suspiciously quiet. Be the first menace.'));return;}
+  data.forEach(c=>target.appendChild(makeComment(c)));
+ }catch(err){status('Could not load comments: '+explain(err),true,'kaos19-comment-status');}
+}
+async function post(e){
+ e.preventDefault();if(!readyForCommunity)return;
+ const form=e.currentTarget, nick=form.elements.nickname.value.trim(),kind=form.elements.kind.value,content=form.elements.content.value.trim();
+ const btn=$('kaos19-post-button');btn.disabled=true;status('Submitting your chaos for approval…',false,'kaos19-comment-status');
+ try{
+  await call('kaos_post_comment',{p_nickname:nick,p_content:content,p_kind:kind,p_parent_id:replyTo});
+  try{localStorage.setItem('kaos19_nickname',nick);}catch(e){}form.elements.content.value='';replyTo=null;$('kaos19-reply-note').hidden=true;
+  status('Your idea has been submitted for review. Ronan is concerned. Zea has already adopted your OC. 🐉💕',false,'kaos19-comment-status');
+  await refreshComments();
+ }catch(err){status('Not submitted: '+explain(err),true,'kaos19-comment-status');}
+ finally{btn.disabled=false;}
+}
+function fixChristmas(){
+ const sec=$('kaos-christmas-special');if(!sec||sec.dataset.kaos19Fixed)return;
+ const head=sec.querySelector('.kaos-xmas-head');const text=head?.querySelector(':scope > div');const gift=sec.querySelector('#kaos-gift-reveal');
+ if(head && text && gift){gift.textContent='🎁 Open Your Gift. We Accept No Responsibility.'; text.appendChild(gift);}
+ sec.dataset.kaos19Fixed='1';
+}
+async function start(){
+ build();fixChristmas();
+ if(!window.supabase?.createClient){status('Music and galleries are fine, but the Supabase library did not load. Check your connection.',true);status('Cannot connect to comments yet.',true,'kaos19-comment-status');return;}
+ db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+ try{
+   const existing=await db.auth.getSession();if(existing.error)throw existing.error;
+   if(!existing.data.session){const res=await db.auth.signInAnonymously();if(res.error)throw res.error;}
+   readyForCommunity=true;
+   const poll=await call('kaos_poll_state');drawPoll(poll);
+   $('kaos19-post-button').disabled=false;
+   status('Ready. Comments are published after approval.',false,'kaos19-comment-status');
+   await refreshComments();
+   setInterval(async()=>{if(document.hidden||!readyForCommunity)return;try{const checked=document.querySelector('#kaos19-choices input:checked')?.value; const poll=await call('kaos_poll_state');drawPoll(poll);if(!poll.selected&&checked){const selected=document.querySelector('#kaos19-choices input[value="'+checked+'"]');if(selected)selected.checked=true;}await refreshComments();}catch(err){}},25000);
+ }catch(err){status('Could not connect: '+explain(err),true);status('Community wall unavailable until Supabase setup is complete.',true,'kaos19-comment-status');}
+ const watcher=new MutationObserver(()=>fixChristmas());watcher.observe(document.body,{subtree:true,childList:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
 </body></html>

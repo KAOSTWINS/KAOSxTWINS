@@ -1,0 +1,44 @@
+KAOSTWINS V19 · ONE DOWNLOAD · ONE GITHUB HTML UPDATE
+=======================================================
+
+Your Supabase project address and publishable key are already included in index.html.
+There is NO server password or secret key in the website.
+
+FIRST, once only, set up Supabase:
+1) Supabase dashboard → Authentication → Providers / Sign In settings → Anonymous Sign-ins → ENABLE.
+2) Supabase dashboard → SQL Editor → New query.
+3) Open KAOSTWINS_RUN_ONCE_SUPABASE.sql from this ZIP, paste all of it into SQL Editor and click Run.
+4) Supabase dashboard → Table Editor → check that kaos_rounds, kaos_poll_options,
+   kaos_votes, kaos_comments, and kaos_hearts exist.
+
+THEN update your existing GitHub Pages website:
+5) Extract this ZIP. Copy ONLY index.html to the ROOT of your existing website repository.
+6) Replace the previous index.html. LEAVE YOUR EXISTING ASSETS FOLDER ALONE.
+7) GitHub Desktop → Commit to main → Push origin. Ctrl+F5 in the published browser page.
+
+TEST:
+8) Open KAOSTWINS on a normal or private browser window. Pick a bot, cast a vote.
+9) You should see vote totals immediately, then they refresh about every 25 seconds.
+10) Post a comment or bot idea. It appears for you as Awaiting approval.
+11) In Supabase → Table Editor → kaos_comments, set approved=true on that comment.
+12) Refresh the page. Other visitors can now see it and heart/reply.
+
+MANAGEMENT:
+- All votes: Supabase → Table Editor → kaos_votes.
+- Comments: Supabase → Table Editor → kaos_comments.
+- Approve a comment by changing approved to true. Delete it to remove.
+- The five choices are in kaos_poll_options.
+- To end voting: kaos_rounds → set open=false. This keeps comments open.
+- To set up a second season, add a round and options; set old active=false and new active=true.
+
+NOTES:
+- This is a real database-backed poll once SQL has been run and anonymous sign-ins enabled.
+- We have NOT logged into your Supabase project or run SQL on your behalf.
+- One vote per anonymous account, NOT verified one person. Browser cleanup or another
+  device can generate more accounts. Add CAPTCHA/Turnstile as traffic grows.
+- No separate bot-request form: the comment wall has a 'Bot idea' category.
+- Fan-art file submissions remain a separate Archive feature.
+- Comments are moderated, with 1 minute between posts and 5 posts/hour per account.
+- Supabase CDN needs an internet connection. GitHub Pages must be deployed over HTTPS.
+- The HTML itself uses existing music and gallery files in your GitHub assets folder.
+- You do not need to re-upload images, songs or large music packs.
