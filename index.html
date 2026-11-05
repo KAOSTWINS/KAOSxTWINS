@@ -265,11 +265,21 @@ footer:before{content:"";display:block;height:3px;background:linear-gradient(to 
      <div class="kaos-feature-copy"><span class="kaos-feature-kicker">WOLF MUSK × KAOSTWINS</span><h3>ONE GREENROOM.<br>ZERO PEACE.</h3><p>Bryce, Joel, Vex and enough backstage drama to make the venue's insurance cry. Wolf Musk belongs to AnimusReach.</p><div class="kaos-feature-actions"><button type="button" onclick="openBotPage('wolfmusk')">Crash the greenroom ↗</button><a href="https://dreamjourneyai.com/profile/AnimusReach" target="_blank" rel="noopener noreferrer">Meet AnimusReach ↗</a></div></div>
    </article>
   </div>
-  <div class="kaos-holiday-teaser">
-    <div class="kaos-holiday-sparkles" aria-hidden="true">✦　❄　✦　✧　❄　✦</div>
-    <div class="kaos-holiday-cover"><img src="assets/stormfall_12.webp" alt="Season's Greedings holiday crossover album artwork" decoding="async" loading="lazy"></div>
-    <div class="kaos-holiday-teaser-copy"><div class="kaos-holiday-label">🎄 HOLIDAY TAKEOVER · STORMFALL × KAOSTWINS</div><h3>SEASON'S GREEDINGS</h3><p>Seven sins, a very questionable nice list, mistletoe incidents and a festive soundtrack with absolutely no adult supervision.</p></div>
-    <button type="button" class="kaos-holiday-link" onclick="openBotPage('stormfall');setTimeout(()=>document.getElementById('kaos-christmas-special')?.scrollIntoView({behavior:'smooth',block:'start'}),80)">Unwrap the special 🎁</button>
+  <div class="kaos21-home-holiday" id="kaos-home-holiday" aria-labelledby="kaos21-holiday-title">
+    <div class="kaos21-home-cover">
+      <img src="assets/stormfall_12.webp" alt="Season's Greedings album art, Seven Deadly Sins and Dragon Fuckers Christmas crossover" decoding="async" loading="lazy">
+      <span class="kaos21-holiday-cover-tag">STORMFALL × KAOSTWINS</span>
+    </div>
+    <div class="kaos21-home-holiday-content">
+      <p class="kaos21-home-kicker">✦ A VERY UNHOLY CHRISTMAS · EXCLUSIVE HOLIDAY FEATURE</p>
+      <h3 id="kaos21-holiday-title">SEASON'S <em>GREEDINGS</em></h3>
+      <p class="kaos21-home-description">Seven Sins. One spectacularly questionable nice list. Mistletoe incidents, festive songs, and absolutely no adult supervision.</p>
+      <p class="kaos21-home-quip">“Santa has reviewed the guest list. He's requesting hazard pay.” 🎄</p>
+      <div class="kaos21-home-actions">
+        <button type="button" class="kaos21-gift-button" onclick="openBotPage('stormfall');setTimeout(()=>document.getElementById('kaos-christmas-special')?.scrollIntoView({behavior:'smooth',block:'start'}),120)">🎁 Unwrap the special</button>
+        <a class="kaos21-suno-button" href="https://suno.com/playlist/a761301e-38c0-4a58-bc42-a503382da528" target="_blank" rel="noopener noreferrer">♫ Hear the holiday album ↗</a>
+      </div>
+    </div>
   </div>
  </div>
 </section>
@@ -1220,6 +1230,39 @@ async function post(e){
  }catch(err){status('Not submitted: '+explain(err),true,'kaos19-comment-status');}
  finally{btn.disabled=false;}
 }
+function patchCommunityUX(){
+ const section=$('vote-next');
+ const side=section?.querySelector('.kaos19-side');
+ const wall=section?.querySelector('#kaos20-comment-pit');
+ const form=wall?.querySelector('#kaos19-comment-form');
+ if(!side||!wall||!form||side.dataset.kaos21Moved==='1')return;
+ side.dataset.kaos21Moved='1';
+ const intro=side.firstElementChild;
+ if(intro){
+   const paras=intro.querySelectorAll('p');
+   if(paras[0])paras[0].textContent='Results unlock once you vote. Live community percentages refresh automatically.';
+   if(paras[1])paras[1].textContent='You can change your vote. Each browser session has its own anonymous identity.';
+ }
+ const pinned=side.querySelector('.pinned');
+ if(pinned)pinned.remove();
+ side.querySelector('.kaos19-fade')?.remove();
+ const commentHeading=document.createElement('div');
+ commentHeading.className='kaos21-compose-heading';
+ commentHeading.innerHTML='<span class="kaos19-kicker">💬 THE COMMENT PIT</span><h3>HAVE A TERRIBLE IDEA?</h3><p>Drop your bot suggestion or comment here. Zea is already taking notes.</p>';
+ side.appendChild(commentHeading);
+ const replyNote=$('kaos19-reply-note');
+ if(replyNote)side.appendChild(replyNote);
+ side.appendChild(form);
+ if(pinned)side.appendChild(pinned);
+ const wallH=wall.querySelector('.kaos19-wall-head h3');
+ if(wallH)wallH.textContent='THE CROWD HAS OPINIONS.';
+ const wallP=wall.querySelector('.kaos19-wall-head p');
+ if(wallP)wallP.textContent='Approved comments, replies and bot ideas appear here. Your own pending ideas are visible to you.';
+ const wallK=wall.querySelector('.kaos19-wall-head .kaos19-kicker');
+ if(wallK)wallK.textContent='✦ FROM THE COMMUNITY';
+ const commentLink=section.querySelector('.kaos20-comments-link');
+ if(commentLink){commentLink.href='#kaos19-comment-form';commentLink.textContent='💬 Write a comment ↓';}
+}
 function fixChristmas(){
  const sec=$('kaos-christmas-special');if(!sec||sec.dataset.kaos19Fixed)return;
  const head=sec.querySelector('.kaos-xmas-head');const text=head?.querySelector(':scope > div');const gift=sec.querySelector('#kaos-gift-reveal');
@@ -1227,7 +1270,7 @@ function fixChristmas(){
  sec.dataset.kaos19Fixed='1';
 }
 async function start(){
- build();fixChristmas();
+ build();patchCommunityUX();fixChristmas();
  if(!window.supabase?.createClient){status('Music and galleries are fine, but the Supabase library did not load. Check your connection.',true);status('Cannot connect to comments yet.',true,'kaos19-comment-status');return;}
  db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
  try{
@@ -1397,4 +1440,70 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+<style id="kaos21-home-and-comments-fix">
+/* V21: the FRONT-PAGE festive banner (not the Sins-page special) */
+#featured-collabs .kaos21-home-holiday{
+  width:100%; min-width:0; box-sizing:border-box; margin:24px 0 0;
+  display:grid; grid-template-columns:minmax(200px,270px) minmax(0,1fr);
+  align-items:center; column-gap:clamp(24px,4vw,64px);
+  padding:clamp(20px,3vw,36px);
+  border:1px solid rgba(248,204,143,.67); border-radius:24px;
+  background:radial-gradient(ellipse at 13% 15%,rgba(133,27,48,.50),transparent 45%),
+    radial-gradient(ellipse at 90% 80%,rgba(27,106,64,.52),transparent 48%),
+    linear-gradient(120deg,#3b1827 0%,#20131c 52%,#10231c 100%);
+  box-shadow:0 22px 68px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,223,172,.09);
+  overflow:hidden; position:relative; isolation:isolate;
+}
+#featured-collabs .kaos21-home-holiday::before{
+  content:'✦'; position:absolute; right:20px; top:12px;
+  font-size:28px; color:#e7ca9d; opacity:.72;pointer-events:none;
+}
+#featured-collabs .kaos21-home-cover{width:100%;max-width:270px;position:relative;justify-self:center;align-self:center;min-width:0}
+#featured-collabs .kaos21-home-cover img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:15px;border:2px solid #d9ba88;box-shadow:0 16px 44px #0009}
+#featured-collabs .kaos21-holiday-cover-tag{position:absolute;left:9px;right:9px;bottom:10px;padding:7px 6px;text-align:center;background:rgba(14,13,13,.78);border:1px solid #f1cf9f62;border-radius:6px;color:#ffdfb0;font:800 9px/1.4 Inter,Arial,sans-serif;letter-spacing:.11em}
+#featured-collabs .kaos21-home-holiday-content{min-width:0;max-width:960px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:0}
+#featured-collabs .kaos21-home-kicker{font:800 11px/1.5 Inter,Arial,sans-serif;color:#ffd9a5;letter-spacing:.13em;margin:0 0 9px}
+#featured-collabs .kaos21-home-holiday-content h3{font:800 clamp(34px,4.4vw,66px)/.98 Impact,'Arial Narrow',Arial,sans-serif;letter-spacing:.008em;color:#fff3df;margin:0 0 17px;overflow-wrap:break-word}
+#featured-collabs .kaos21-home-holiday-content h3 em{font-style:normal;color:#ffc2be}
+#featured-collabs .kaos21-home-description{color:#f4e9e2;font:400 clamp(13px,1.14vw,16px)/1.7 Inter,Arial,sans-serif;max-width:680px;margin:0 0 10px}
+#featured-collabs .kaos21-home-quip{font:italic 400 13px/1.6 Georgia,serif;color:#f5cda5;margin:0 0 23px}
+#featured-collabs .kaos21-home-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+#featured-collabs .kaos21-gift-button,#featured-collabs .kaos21-suno-button{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:12px 17px;border-radius:10px;font:800 12px/1.3 Inter,Arial,sans-serif;text-decoration:none;cursor:pointer;box-sizing:border-box;transition:transform .2s ease,filter .2s ease}
+#featured-collabs .kaos21-gift-button{border:1px solid #ffe1b5;background:#ffdcaa;color:#2a1520}
+#featured-collabs .kaos21-suno-button{border:1px solid #efd8b48c;background:rgba(255,255,255,.06);color:#fff5e2}
+#featured-collabs .kaos21-gift-button:hover,#featured-collabs .kaos21-suno-button:hover{transform:translateY(-2px);filter:brightness(1.07)}
+/* V21: comment composer is now inside CURRENT CHAOS, not hidden below a huge empty panel */
+#vote-next .kaos19-columns{align-items:start!important}
+#vote-next .kaos19-side{display:flex!important;flex-direction:column!important;align-content:initial!important;justify-content:flex-start!important;align-self:start!important;gap:14px!important;height:auto!important;min-height:0!important}
+#vote-next .kaos19-side>div:first-child>p{margin:7px 0!important;font:12px/1.55 Inter,Arial,sans-serif}
+#vote-next .kaos19-side>div:first-child h3{margin:8px 0 12px!important}
+#vote-next .kaos21-compose-heading{border-top:1px solid #b18aa04d;margin-top:8px;padding-top:20px}
+#vote-next .kaos21-compose-heading h3{margin:8px 0 5px!important;font-size:clamp(24px,2.3vw,32px)!important;color:#fff1fb}
+#vote-next .kaos21-compose-heading p{margin:0!important;font:12px/1.6 Inter,Arial,sans-serif;color:#e5bedc}
+#vote-next .kaos19-side .kaos19-form{width:100%;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,.75fr)!important;gap:9px;margin:0!important}
+#vote-next .kaos19-side .kaos19-form input,#vote-next .kaos19-side .kaos19-form select,#vote-next .kaos19-side .kaos19-form textarea{box-sizing:border-box;width:100%;min-width:0;background:#100c16;border:1px solid #b17f9e;color:#fff;padding:12px 11px;border-radius:9px;font:13px/1.4 Inter,Arial,sans-serif}
+#vote-next .kaos19-side .kaos19-form textarea{grid-column:1/-1!important;min-height:115px!important;resize:vertical}
+#vote-next .kaos19-side .kaos19-form button{grid-column:1/-1!important;justify-self:stretch;width:100%}
+#vote-next .kaos19-side .kaos19-form .status{grid-column:1/-1!important;margin:0;min-height:auto}
+#vote-next .kaos19-side .pinned{margin-top:3px!important;padding:12px!important;font-size:12px!important}
+#vote-next .kaos19-wall{margin-top:18px!important}
+#vote-next .kaos19-side [hidden]{display:none!important}
+@media (max-width:900px){
+  #featured-collabs .kaos21-home-holiday{grid-template-columns:minmax(140px,210px) minmax(0,1fr);column-gap:24px}
+  #featured-collabs .kaos21-home-holiday-content h3{font-size:clamp(34px,4.4vw,48px)}
+}
+@media (max-width:650px){
+  #featured-collabs .kaos21-home-holiday{grid-template-columns:minmax(0,1fr);gap:20px;padding:22px 19px 24px;border-radius:19px;text-align:center}
+  #featured-collabs .kaos21-home-cover{width:min(100%,235px);margin:0 auto}
+  #featured-collabs .kaos21-home-holiday-content{align-items:center;width:100%;max-width:100%}
+  #featured-collabs .kaos21-home-kicker{font-size:10px;letter-spacing:.09em}
+  #featured-collabs .kaos21-home-holiday-content h3{font-size:clamp(35px,8vw,49px);margin:0 0 12px}
+  #featured-collabs .kaos21-home-description{font-size:13px;line-height:1.65}
+  #featured-collabs .kaos21-home-quip{margin-bottom:18px}
+  #featured-collabs .kaos21-home-actions{width:100%;display:grid;grid-template-columns:1fr;gap:10px}
+  #featured-collabs .kaos21-gift-button,#featured-collabs .kaos21-suno-button{width:100%;min-height:47px}
+  #vote-next .kaos19-side .kaos19-form{grid-template-columns:1fr!important}
+  #vote-next .kaos19-side .kaos19-form input,#vote-next .kaos19-side .kaos19-form select{grid-column:1/-1}
+}
+</style>
 </body></html>
