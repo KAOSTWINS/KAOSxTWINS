@@ -1,0 +1,19 @@
+KAOSTWINS — ACTIVATE REAL READER VOTES (OPTIONAL)
+
+The website works as a static gallery and music player without this service.
+By default votes are preview-only in the visitor’s browser; suggestions are copied for Discord DM @dyingstar460. They are NOT sent to you automatically.
+
+To accept real shared voting and requests, you need a backend. A Cloudflare Worker + D1 starter is included here.
+1. Create a Cloudflare account, install Wrangler, and log in: npx wrangler login
+2. From this folder: npx wrangler d1 create kaostwins-community
+3. Copy wrangler.toml.example to wrangler.toml and insert the returned database_id.
+4. Set ALLOWED_ORIGIN in wrangler.toml to the origin of your deployed KAOSTWINS site (no trailing slash).
+5. Apply the schema: npx wrangler d1 execute kaostwins-community --remote --file=schema.sql
+6. Publish: npx wrangler deploy
+7. In index.html, find id="kaos-community-config" and set pollEndpoint and requestEndpoint to the Worker URL. Upload the updated index.html.
+8. Test /results, then submit a vote and a request from the published site.
+
+Votes are tracked by a random ID saved in each browser. A person can reset that ID and vote again, so this is a fan poll, not tamper-proof election infrastructure.
+Requests are stored in Cloudflare D1's requests table. The admin must view/export them in Cloudflare; no inbox notification is configured. Add Turnstile and rate-limiting before promoting broadly.
+
+Security: Do not put Cloudflare API keys inside index.html. All credentialed Worker configuration stays on Cloudflare.

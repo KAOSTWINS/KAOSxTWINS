@@ -1,0 +1,11 @@
+name = "kaostwins-community"
+main = "community-worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://your-site.netlify.app"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kaostwins-community"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"

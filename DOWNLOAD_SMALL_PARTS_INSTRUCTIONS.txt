@@ -1,0 +1,22 @@
+KAOSTWINS V13 — EASY SMALL DOWNLOADS (KEEP ORIGINAL IMAGE QUALITY)
+
+If the large 75 MB Complete High Quality ZIP is hard to download, get all the following files:
+
+- KAOSTWINS_V13_CORE_AND_OFFICIAL_COVERS.zip
+- KAOSTWINS_V13_ART_PACK_1.zip
+- KAOSTWINS_V13_ART_PACK_2.zip
+- KAOSTWINS_V13_ART_PACK_3.zip
+- KAOSTWINS_V13_ART_PACK_4.zip
+- KAOSTWINS_V13_MUSIC_PACK_1.zip
+- KAOSTWINS_V13_MUSIC_PACK_2.zip
+- KAOSTWINS_V13_MUSIC_PACK_3.zip
+
+Then:
+1. Create a folder named KAOSTWINS.
+2. Extract EACH ZIP into the SAME KAOSTWINS folder (use Merge/Yes when asked).
+3. When finished you should have KAOSTWINS/index.html and KAOSTWINS/assets/ (with the image files and music/).
+4. Double-click index.html to preview, or upload index.html and assets/ to a static website host.
+
+All cover and artwork files are the same as in the full-quality ZIP. The packs are not lower-quality versions.
+
+PUBLIC POLL NOTE: Votes are preview-only until you separately deploy and connect the Cloudflare Worker in deploy/.

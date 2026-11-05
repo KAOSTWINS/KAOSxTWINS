@@ -1,0 +1,49 @@
+{
+  "full": {
+    "name": "KAOSTWINS_V13_COMPLETE_HIGH_QUALITY.zip",
+    "size_bytes": 79182775
+  },
+  "core": {
+    "name": "KAOSTWINS_V13_CORE_AND_OFFICIAL_COVERS.zip",
+    "size_bytes": 7725124
+  },
+  "art_packs": [
+    {
+      "name": "KAOSTWINS_V13_ART_PACK_1.zip",
+      "size_bytes": 11487928,
+      "files": 32
+    },
+    {
+      "name": "KAOSTWINS_V13_ART_PACK_2.zip",
+      "size_bytes": 11371121,
+      "files": 31
+    },
+    {
+      "name": "KAOSTWINS_V13_ART_PACK_3.zip",
+      "size_bytes": 11289271,
+      "files": 36
+    },
+    {
+      "name": "KAOSTWINS_V13_ART_PACK_4.zip",
+      "size_bytes": 11650132,
+      "files": 59
+    }
+  ],
+  "music_packs": [
+    {
+      "name": "KAOSTWINS_V13_MUSIC_PACK_1.zip",
+      "size_bytes": 7333476,
+      "files": 2
+    },
+    {
+      "name": "KAOSTWINS_V13_MUSIC_PACK_2.zip",
+      "size_bytes": 7234188,
+      "files": 2
+    },
+    {
+      "name": "KAOSTWINS_V13_MUSIC_PACK_3.zip",
+      "size_bytes": 11091689,
+      "files": 3
+    }
+  ]
+}

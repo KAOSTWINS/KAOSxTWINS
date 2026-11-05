@@ -1,0 +1,14 @@
+KAOSTWINS V13 · LINKS STILL TO BE ADDED
+
+10 DIRECT BOT LINKS: CONNECTED (Ronan, Island, Cal, FFVII, Rafe, Dead Week, Luvion, Blackthorn Manor, Vaelis, With All Due Disrespect).
+
+NOT SUPPLIED: A direct Dreamjourney creation link for Dr♡gon F☆ckers or Fable. They remain unlinked rather than pointing to the wrong bot. Wolf Musk and The Sins show their original creator profile credits.
+
+SUNO: Seven full-length songs play locally in KAOSTWINS Radio. Their original per-song share links still need to be supplied for six songs. No fabricated URLs were used.
+
+KNOWN LIVE SUNO LINK: One-Star Paradise https://suno.com/s/kaCOvaD2wGwqNLMd
+KNOWN PLAYLISTS:
+ Unholy Alliance https://suno.com/playlist/9b419967-8c67-4cc3-b3ad-c57aedf708fd
+ Season’s Greedings https://suno.com/playlist/a761301e-38c0-4a58-bc42-a503382da528
+
+TO ADD A NEW SIN: Add their images and captions to the stormfall entry in KAOSTWINS_catalogue_editable.json; also update BOT_CATALOG in index.html.
