@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{color-scheme:dark;font-family:Inter,Arial,sans-serif;}
+    *{box-sizing:border-box}html,body{padding:0;margin:0;background:transparent;color:#f9f4fa}
+    body{padding:14px 4px 18px}
+    .eyebrow{font-size:10px;letter-spacing:.18em;color:#efaeca;font-weight:800;margin-bottom:12px}
+    h2{font-family:Impact,'Arial Black',sans-serif;font-size:29px;letter-spacing:.02em;line-height:1.06;margin:0 0 10px}
+    .desc{font-size:12px;line-height:1.65;color:#cbb8ca;margin:0 0 18px}
+    .choices{display:grid;gap:9px}
+    .choice{display:flex;align-items:center;gap:11px;background:#271b2a;border:1px solid #54405a;border-radius:11px;padding:12px;cursor:pointer;min-height:65px;transition:.15s}
+    .choice:has(input:checked){background:#3c233c;border-color:#eda2c8;box-shadow:inset 0 0 0 1px #eda2c87a}
+    .choice:focus-within{outline:2px solid #eaa9cb;outline-offset:2px}
+    .choice input{accent-color:#e5a1c8;flex:0 0 auto;min-width:16px;min-height:16px}
+    .emoji{font-size:25px;width:30px;text-align:center;flex:0 0 30px}
+    .choice strong{display:block;font-size:12px;color:#fff;line-height:1.4}
+    .choice small{display:block;color:#c7b2c1;font-size:10px;margin-top:3px;line-height:1.5}
+    button{font:800 12px Arial,sans-serif;border:0;cursor:pointer}
+    .submit{display:block;margin-top:17px;width:100%;background:#efbad7;color:#210f22;border-radius:9px;padding:15px;min-height:45px}
+    .submit:disabled{opacity:.5;cursor:wait}
+    .status{font-size:11px;line-height:1.7;color:#d7bad5;margin-top:10px;min-height:18px}
+    .results{margin-top:18px;padding:18px 12px 10px;border:1px solid #694f69;background:#1b1320;border-radius:12px}
+    .results h3{margin:0 0 15px;font-size:12px;letter-spacing:.06em}
+    .result{margin:14px 0}.result .top{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#e8d9e5}
+    .track{height:8px;background:#3d3240;border-radius:12px;margin-top:6px;overflow:hidden}
+    .bar{height:100%;background:linear-gradient(90deg,#bf658f,#efa7ce);border-radius:12px;transition:width .3s}
+    .foot{font-size:10px;color:#988999;margin-top:15px;line-height:1.5}
+    [hidden]{display:none!important}
+    @media(max-width:420px){body{padding:10px 0 15px}.choice{padding:11px 9px}.choice strong{font-size:11px}h2{font-size:25px}}
+  </style>
+</head>
+<body>
+  <div class="eyebrow">SEASON 01 · LIVE COMMUNITY BALLOT</div>
+  <h2>YOU PICK.<br>WE PANIC.</h2>
+  <p class="desc">One vote per browser. You can change your mind, just like Ezra changes his answer when asked who the frontman is.</p>
+  <form id="form">
+    <div class="choices" id="choices">
+      <label class="choice"><input type="radio" name="idea" value="fable" required><span class="emoji">👑</span><span><strong>Fable: The Heroic Complaint Department</strong><small>Albion needs a Hero. The Oracle needs a holiday.</small></span></label>
+      <label class="choice"><input type="radio" name="idea" value="motel"><span class="emoji">🛎️</span><span><strong>The Last Check-In</strong><small>Excellent ratings from guests who are already dead.</small></span></label>
+      <label class="choice"><input type="radio" name="idea" value="vampirehr"><span class="emoji">📋</span><span><strong>The Villain’s HR Department</strong><small>Evil has benefits. Apparently.</small></span></label>
+      <label class="choice"><input type="radio" name="idea" value="pirates"><span class="emoji">🏴‍☠️</span><span><strong>Mutiny & Margaritas</strong><small>Pirates, romance, and a crew allergic to authority.</small></span></label>
+      <label class="choice"><input type="radio" name="idea" value="monsters"><span class="emoji">🧌</span><span><strong>Monster Support Group</strong><small>Feelings, fangs and aggressively unhelpful therapy.</small></span></label>
+    </div>
+    <button class="submit" id="submit" type="submit">Cast my terrible idea 🎟️</button>
+    <div id="status" class="status" role="status" aria-live="polite">Checking your ballot…</div>
+  </form>
+  <div class="results" id="results" hidden><h3 id="resultTitle"></h3><div id="resultItems"></div></div>
+  <p class="foot">Votes are recorded anonymously using a random browser identifier. Clearing site storage or switching browsers can allow another vote; this is not identity verification.</p>
+  <script>
+    const injectedVoter = <?!= JSON.stringify(clientVoter) ?>;
+    function getVoter(){
+      if (/^[A-Za-z0-9_-]{20,100}$/.test(injectedVoter)) return injectedVoter;
+      let id='';try{id=localStorage.getItem('kaos_poll_voter')||''}catch(e){}
+      if(!/^[A-Za-z0-9_-]{20,100}$/.test(id)) {
+        id='kaos_'+Array.from(crypto.getRandomValues(new Uint8Array(20)),x=>x.toString(16).padStart(2,'0')).join('');
+        try{localStorage.setItem('kaos_poll_voter',id)}catch(e){}
+      }
+      return id;
+    }
+    const voter=getVoter();
+    const choices={fable:'Fable: The Heroic Complaint Department',motel:'The Last Check-In',vampirehr:'The Villain’s HR Department',pirates:'Mutiny & Margaritas',monsters:'Monster Support Group'};
+    const form=document.getElementById('form'), submit=document.getElementById('submit'), status=document.getElementById('status');
+    function showError(r){status.textContent=r&&r.error||'The ballot box tripped over its own paperwork. Try again.';submit.disabled=false;}
+    function showData(r){
+      if(!r||!r.ok){showError(r);return;}
+      status.textContent=r.voted?'Your vote has been counted. Zea is making plans. Ronan is filing a complaint.':'Choose a disaster, then cast your vote. Results appear after voting.';
+      if(!r.voted){document.getElementById('results').hidden=true;submit.disabled=false;return;}
+      const radio=form.querySelector('input[value="'+r.choice+'"]');if(radio)radio.checked=true;
+      submit.textContent='Change my vote ↻'; submit.disabled=false;
+      const root=document.getElementById('results'),items=document.getElementById('resultItems');
+      const total=Number(r.total)||0;
+      document.getElementById('resultTitle').textContent='THE PEOPLE HAVE SPOKEN · '+total+' VOTE'+(total===1?'':'S');
+      items.replaceChildren();
+      Object.entries(choices).forEach(([key,name])=>{
+        const n=Math.max(0,Number(r.tallies&&r.tallies[key])||0),p=total?Math.round(n/total*100):0;
+        const wrap=document.createElement('div');wrap.className='result';
+        const top=document.createElement('div');top.className='top';
+        const label=document.createElement('strong');label.textContent=name;
+        const value=document.createElement('span');value.textContent=p+'% · '+n;
+        top.append(label,value);
+        const track=document.createElement('div');track.className='track';const fill=document.createElement('div');fill.className='bar';fill.style.width=p+'%';track.append(fill);
+        wrap.append(top,track);items.append(wrap);
+      });
+      root.hidden=false;
+    }
+    form.addEventListener('submit',event=>{
+      event.preventDefault();const choice=form.querySelector('input[name="idea"]:checked')?.value;if(!choice)return;
+      submit.disabled=true;status.textContent='Counting your vote…';
+      google.script.run.withSuccessHandler(showData).withFailureHandler(showError).castVote(voter,choice);
+    });
+    google.script.run.withSuccessHandler(showData).withFailureHandler(showError).getViewerState(voter);
+  </script>
+</body>
+</html>

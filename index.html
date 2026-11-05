@@ -718,4 +718,231 @@ async function refreshRealResults(){
 if(base){refreshRealResults();const form=document.getElementById('kaos-poll-form');form?.addEventListener('submit',()=>setTimeout(refreshRealResults,850));}
 })();
 </script>
+
+<style id="kaos-v14-patch-style">
+/* V14 patch: community archive, Stormfall lineup, mobile Christmas repair, email forms */
+.kaos-archive{padding:70px 0 80px;background:radial-gradient(circle at 10% 0%,#4b18304d,transparent 34%),radial-gradient(circle at 90% 10%,#1e39584d,transparent 30%),linear-gradient(180deg,#130f17,#0d0a10)}
+.kaos-archive-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:22px;align-items:start}
+.kaos-archive-card,.kaos-archive-form{border:1px solid #ffffff1d;border-radius:20px;background:linear-gradient(145deg,#1a121d,#0e0b12);padding:clamp(18px,3vw,30px);box-shadow:0 18px 60px #0006}
+.kaos-archive-card h3,.kaos-archive-form h3{font-size:clamp(28px,4vw,42px);line-height:1.02;margin:0 0 12px;color:#fff6fb}
+.kaos-archive-card p,.kaos-archive-card li,.kaos-archive-form p{font:400 13px/1.7 Inter,Arial,sans-serif;color:#d5c5d2}
+.kaos-archive-card ul{padding-left:18px;margin:14px 0 0}
+.kaos-archive-kicker{font:800 11px Inter,Arial,sans-serif;letter-spacing:.16em;color:#f1b6d9;margin-bottom:16px}
+.kaos-archive-quip{margin-top:18px;border:1px dashed #cb80b46e;border-radius:14px;padding:14px 16px;background:#241122;color:#ffdff2;font:700 12px/1.6 Inter,Arial,sans-serif}
+.kaos-archive-quip b{color:#fff}
+.kaos-archive-form label{display:block;color:#f0d3eb;font:700 11px Inter,Arial,sans-serif;margin:14px 0 7px}
+.kaos-archive-form input,.kaos-archive-form textarea,.kaos-archive-form select{box-sizing:border-box;width:100%;padding:13px;border-radius:10px;border:1px solid #96658c;background:#120d16;color:#fff;font:400 12px/1.5 Inter,Arial,sans-serif;outline:none}
+.kaos-archive-form input:focus,.kaos-archive-form textarea:focus,.kaos-archive-form select:focus{border-color:#f4b7e7;box-shadow:0 0 0 2px #b775bb44}
+.kaos-archive-form textarea{resize:vertical}
+.kaos-archive-submit{margin-top:18px;padding:14px 18px;border:0;border-radius:10px;background:#f0bddf;color:#180d17;font:900 12px Inter,Arial,sans-serif;cursor:pointer}
+.kaos-archive-status{margin-top:12px;color:#d9c2d7;font-size:11px;line-height:1.7}
+.kaos-archive-note{font-size:11px;color:#b8a5b8;margin-top:10px}
+.kaos-storm-lineup{margin:0 0 24px;border:1px solid #ad69ec55;border-radius:22px;padding:22px;background:linear-gradient(135deg,#23142f,#110d16 55%,#1b1024);box-shadow:0 18px 60px #0006}
+.kaos-storm-lineup-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+.kaos-storm-lineup-head h3{margin:0;color:#fff;font-size:clamp(26px,4vw,40px);line-height:1.02}
+.kaos-storm-lineup-head p{margin:0;max-width:640px;color:#d9c7e6;font-size:13px;line-height:1.6}
+.kaos-storm-quip{display:inline-block;margin-top:10px;padding:11px 15px;border-radius:999px;background:#402157;color:#ffe7ff;font:800 12px/1.4 Inter,Arial,sans-serif;border:1px solid #d3a2ff4f}
+.kaos-storm-scroller{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,26vw);gap:14px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.kaos-storm-scroller::-webkit-scrollbar{height:10px}.kaos-storm-scroller::-webkit-scrollbar-thumb{background:#754592;border-radius:999px}
+.kaos-storm-card{position:relative;border:1px solid #ffffff18;border-radius:14px;overflow:hidden;background:#120e18;box-shadow:0 10px 30px #0005}
+.kaos-storm-card img{display:block;width:100%;height:100%;aspect-ratio:3/4;object-fit:cover}
+.kaos-storm-card span{position:absolute;left:0;right:0;bottom:0;padding:16px 12px 10px;color:#fff;background:linear-gradient(transparent,#000f 68%);font:800 12px Inter,Arial,sans-serif;letter-spacing:.02em}
+@media(max-width:960px){.kaos-archive-grid{grid-template-columns:1fr}.kaos-storm-scroller{grid-auto-columns:minmax(210px,68vw)}}
+@media(max-width:720px){.kaos-storm-lineup{padding:18px}.kaos-storm-lineup-head{align-items:flex-start}.kaos-storm-quip{border-radius:16px}.kaos-storm-scroller{grid-auto-columns:minmax(190px,82vw)}}
+@media(max-width:720px){#kaos-christmas-special.kaos-xmas{padding:58px 16px 22px!important}#kaos-christmas-special .kaos-xmas-head{grid-template-columns:1fr!important;gap:16px!important}#kaos-christmas-special .kaos-xmas-head img{width:min(100%,260px)!important;height:auto!important;margin:0 auto!important}#kaos-christmas-special .kaos-xmas-links{flex-direction:column!important}#kaos-christmas-special .kaos-xmas-links a,#kaos-christmas-special .kaos-gift{width:100%!important;justify-content:center!important;text-align:center!important}#kaos-christmas-special .kaos-xmas-strip{grid-template-columns:1fr!important}#kaos-christmas-special::before{font-size:12px!important;letter-spacing:.14em!important;line-height:1.3!important;padding:8px 8px!important}#kaos-christmas-special::after{display:none!important}.kaos-holiday-teaser{grid-template-columns:1fr!important;padding:16px!important;gap:14px!important}.kaos-holiday-cover img{width:min(100%,165px)!important;height:auto!important;margin:0 auto!important}.kaos-holiday-link{grid-column:auto!important;justify-self:stretch!important}.kaos-holiday-teaser:before,.kaos-holiday-sparkles{display:none!important}}
+</style>
+<script id="kaos-v14-patch-script">
+(function(){
+  'use strict';
+  const MAIL_TO='levallanzea@gmail.com';
+  const stormLineup=[
+    {name:'Sloth · Hollis Keene',src:'assets/stormfall_sin_sloth.webp'},
+    {name:'Envy · Heath Barlow',src:'assets/stormfall_sin_envy.webp'},
+    {name:'Wrath · Russell Gannon',src:'assets/stormfall_sin_wrath.webp'},
+    {name:'Pride · Alexander Varela',src:'assets/stormfall_sin_pride.webp'},
+    {name:'Lust · Nico Salazar',src:'assets/stormfall_sin_lust.webp'},
+    {name:'Greed · Quincy Maddox',src:'assets/stormfall_sin_greed.webp'},
+    {name:'Gluttony · Fintan Kelleher',src:'assets/stormfall_sin_gluttony.webp'}
+  ];
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
+  function injectArchiveSection(){
+    if(document.getElementById('fan-archive')) return;
+    const poll=document.getElementById('vote-next');
+    if(!poll) return;
+    const sec=document.createElement('section');
+    sec.className='section kaos-archive'; sec.id='fan-archive';
+    sec.innerHTML='<div class="shell"><div class="section-heading"><div><div class="eyebrow">✦ community archive / submissions</div><h2 class="h2">YOUR OC. <span>OUR PROBLEM.</span></h2></div><div class="aside">Fan art lives here. Send your character with ours and we will build the chaos archive properly.</div></div><div class="kaos-archive-grid"><div class="kaos-archive-card"><div class="kaos-archive-kicker">KAOSTWINS COMMUNITY ARCHIVE</div><h3>SUBMIT FAN ART.</h3><p>This archive is now for community submissions: your original character with a KAOSTWINS character, a crossover disaster, a soft domestic scene, or a full-scale emotional emergency.</p><ul><li>Artist credit stays with you.</li><li>Submissions are reviewed before they are added publicly.</li><li>You can send a direct file by email, or include a Drive / Dropbox / social link.</li><li>Collabs and creator credits remain clearly marked.</li></ul><div class="kaos-archive-quip"><b>Submission receipt:</b> “Your artwork has been submitted. Ronan is concerned. Zea has already adopted your OC.” 🐉💕</div></div><div class="kaos-archive-form"><div class="kaos-archive-kicker">SEND IT TO THE ARCHIVE</div><h3>FAN ART DROPBOX.</h3><p>Fill this in and your email app will open a ready-made submission draft to <b>'+MAIL_TO+'</b>.</p><form id="kaos-archive-form"><label for="archive-artist">Artist name / handle</label><input id="archive-artist" maxlength="80" required placeholder="Discord, Dreamjourney name, or preferred credit"><label for="archive-contact">Contact link or @handle</label><input id="archive-contact" maxlength="120" placeholder="Optional: Discord, Instagram, etc."><label for="archive-oc">Your OC name</label><input id="archive-oc" maxlength="80" required placeholder="Who are we adopting today?"><label for="archive-kaos">Which KAOSTWINS character is involved?</label><input id="archive-kaos" maxlength="120" required placeholder="Zea, Ronan, Cal, Rafe, Pride, the twins, etc."><label for="archive-link">Artwork link</label><input id="archive-link" maxlength="250" placeholder="Optional: Drive, Dropbox, post link, etc."><label for="archive-caption">Caption / notes</label><textarea id="archive-caption" rows="5" maxlength="700" placeholder="Tell me the vibe, the scene, and how badly this ended."></textarea><button type="submit" class="kaos-archive-submit">Open the submission email ↗</button><div class="kaos-archive-status" id="kaos-archive-status">This opens a prefilled email draft. If you are sending the actual image file, attach it before hitting send.</div><div class="kaos-archive-note">No fake database. No disappearing form. Straight to the inbox.</div></form></div></div></div>';
+    poll.insertAdjacentElement('afterend',sec);
+    const form=sec.querySelector('#kaos-archive-form');
+    const status=sec.querySelector('#kaos-archive-status');
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      const artist=document.getElementById('archive-artist').value.trim();
+      const contact=document.getElementById('archive-contact').value.trim();
+      const oc=document.getElementById('archive-oc').value.trim();
+      const kaos=document.getElementById('archive-kaos').value.trim();
+      const link=document.getElementById('archive-link').value.trim();
+      const caption=document.getElementById('archive-caption').value.trim();
+      if(!artist||!oc||!kaos) return;
+      const subject='KAOSTWINS Fan Art Submission — '+oc;
+      const body=[
+        'KAOSTWINS FAN ART SUBMISSION',
+        '',
+        'Artist / handle: '+artist,
+        'Contact: '+(contact||'—'),
+        'OC name: '+oc,
+        'KAOSTWINS character(s): '+kaos,
+        'Artwork link: '+(link||'I will attach the artwork file to this email.'),
+        '',
+        'Caption / notes:',
+        caption||'—',
+        '',
+        'Permission: I am submitting this artwork for the KAOSTWINS community archive and understand it may be displayed with credit if approved.'
+      ].join('\n');
+      window.location.href='mailto:'+MAIL_TO+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+      status.textContent='Email draft opened. Attach your artwork if needed, then send it. Ronan is concerned. Zea has already adopted your OC.';
+    });
+  }
+  function patchPollAndRequests(){
+    const pollWrap=document.querySelector('#vote-next .kaos-ballot-options');
+    if(pollWrap){
+      pollWrap.innerHTML=''
+        +'<label class="kaos-ballot-option"><input type="radio" name="kaos-next-bot" value="fable" required><span class="kaos-ballot-emoji">👑</span><span><strong>Fable: The Heroic Complaint Department</strong><small>Albion needs a Hero. The Oracle needs a holiday.</small></span><span class="kaos-ballot-tick">✓</span></label>'
+        +'<label class="kaos-ballot-option"><input type="radio" name="kaos-next-bot" value="motel"><span class="kaos-ballot-emoji">🛎️</span><span><strong>The Last Check-In</strong><small>A haunted hotel with excellent reviews from the deceased.</small></span><span class="kaos-ballot-tick">✓</span></label>'
+        +'<label class="kaos-ballot-option"><input type="radio" name="kaos-next-bot" value="vampirehr"><span class="kaos-ballot-emoji">📋</span><span><strong>The Villain’s HR Department</strong><small>Evil has benefits. Apparently.</small></span><span class="kaos-ballot-tick">✓</span></label>'
+        +'<label class="kaos-ballot-option"><input type="radio" name="kaos-next-bot" value="pirates"><span class="kaos-ballot-emoji">🏴‍☠️</span><span><strong>Mutiny & Margaritas</strong><small>Pirates, romance and a crew allergic to authority.</small></span><span class="kaos-ballot-tick">✓</span></label>'
+        +'<label class="kaos-ballot-option"><input type="radio" name="kaos-next-bot" value="monsters"><span class="kaos-ballot-emoji">🧌</span><span><strong>Monster Support Group</strong><small>Feelings, fangs and aggressively unhelpful therapy.</small></span><span class="kaos-ballot-tick">✓</span></label>';
+    }
+    const requestCard=document.querySelector('#vote-next .kaos-request-card');
+    const old=document.getElementById('kaos-request-form');
+    if(requestCard && old){
+      requestCard.querySelector('p').textContent='Pitch the next disaster and your email app will open a draft straight to the inbox.';
+      const replacement=old.cloneNode(true);
+      old.replaceWith(replacement);
+      const btn=replacement.querySelector('.kaos-request-submit');
+      const status=replacement.querySelector('#kaos-request-status');
+      const titleInput=replacement.querySelector('#kaos-request-name');
+      const pitchInput=replacement.querySelector('#kaos-request-text');
+      if(titleInput) titleInput.placeholder='e.g. The Werewolf Homeowners Association';
+      if(pitchInput) pitchInput.placeholder='The premise, cast chaos, emotional damage, and why this sounded smart at 2 AM…';
+      if(btn) btn.textContent='Send request by email ↗';
+      if(status) status.innerHTML='This opens a ready-made email to <strong>'+MAIL_TO+'</strong>. No fake database. No vanishing form.';
+      replacement.addEventListener('submit',function(e){
+        e.preventDefault();
+        const title=(titleInput?.value||'').trim();
+        const pitch=(pitchInput?.value||'').trim();
+        if(!title||!pitch) return;
+        const subject='KAOSTWINS Bot Request — '+title;
+        const body=['KAOSTWINS BOT REQUEST','', 'Working title: '+title, '', 'Pitch:', pitch, '', 'Sent from the KAOSTWINS website ballot box.'].join('\n');
+        window.location.href='mailto:'+MAIL_TO+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+        if(status) status.textContent='Email draft opened. Send it when you are ready and I will add your fresh nightmare to the pile.';
+      });
+    }
+  }
+  function patchSoundtrackCovers(){
+    if(typeof RADIO_COVERS!=='undefined'){
+      RADIO_COVERS.unstable='assets/dragon_soundtrack_cover.png';
+      RADIO_COVERS.ink_remembers='assets/dragon_soundtrack_cover.png';
+      RADIO_COVERS.weather_walls='assets/dragon_soundtrack_cover.png';
+    }
+  }
+  function addStormfallLineup(){
+    if(typeof BOT_CATALOG==='undefined' || !BOT_CATALOG.stormfall) return;
+    BOT_CATALOG.stormfall.lineup=stormLineup;
+    const previous=renderBot;
+    if(previous && !window.__kaosStormLineupPatched){
+      window.__kaosStormLineupPatched=true;
+      renderBot=function(id){
+        previous(id);
+        if(id!=='stormfall') return;
+        const body=document.querySelector('#bot-page-inner .bot-body');
+        if(!body || document.getElementById('kaos-storm-lineup')) return;
+        const box=document.createElement('section');
+        box.className='kaos-storm-lineup'; box.id='kaos-storm-lineup';
+        box.innerHTML='<div class="kaos-storm-lineup-head"><div><div class="bot-eyebrow">BONUS FEATURE / STORMFALL’S SINS</div><h3>MEET THE LINEUP.</h3><p>The Seven Deadly Sins now get pride of place at the top of the page: gorgeous, dangerous, and almost certainly one argument away from a tour-bus incident.</p><div class="kaos-storm-quip">Zea says: “Seven sins, one collab, and somehow I’m still the shortest problem here.”</div></div></div><div class="kaos-storm-scroller">'+stormLineup.map(item=>'<figure class="kaos-storm-card"><img src="'+item.src+'" alt="'+item.name+'"><span>'+item.name+'</span></figure>').join('')+'</div>';
+        const firstSect=body.querySelector('.bot-sect');
+        if(firstSect) firstSect.insertAdjacentElement('beforebegin',box); else body.prepend(box);
+      };
+    }
+  }
+  ready(function(){
+    injectArchiveSection();
+    patchPollAndRequests();
+    patchSoundtrackCovers();
+    addStormfallLineup();
+    if(typeof detailId!=='undefined' && detailId==='stormfall' && typeof renderBot==='function'){
+      const id=detailId; detailId=null; renderBot(id);
+    }
+  });
+})();
+</script>
+
+
+<style id="kaos-v15-live-ballot-style">
+.kaos-ballot-embed{border:1px solid #ac699759;border-radius:18px;overflow:hidden;background:linear-gradient(165deg,#1c1321,#130f18);padding:14px 16px 2px;box-shadow:0 18px 55px #0004}
+.kaos-ballot-embed iframe{display:block;width:100%;height:885px;border:0;background:transparent}
+.kaos-ballot-embed-notice{margin:0 0 12px;color:#d5bbce;font:400 11px/1.7 Inter,Arial,sans-serif}
+@media(max-width:680px){.kaos-ballot-embed{padding:12px 11px 0}.kaos-ballot-embed iframe{height:940px}}
+</style>
+<script id="kaos-v15-live-ballot-config">
+// After deploying KAOSTWINS_V15_GOOGLE_VOTING, put the Google Apps Script /exec URL here.
+// Example: window.KAOS_POLL_WEBAPP_URL = 'https://script.google.com/macros/s/ABC.../exec';
+window.KAOS_POLL_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gmHQxkkK5NhFd5TUW8T8j2qiBjW6PtbPtxAAteXgn-ag0q-5B6fX4NBmfs_CRqmWpw/exec';
+</script>
+<script id="kaos-v15-live-ballot-loader">
+(function(){
+  'use strict';
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
+  function getBrowserId(){
+    let id='';
+    try{id=localStorage.getItem('kaostwins_season_01_id')||'';}catch(e){}
+    if(!/^[A-Za-z0-9_-]{20,100}$/.test(id)) {
+      const random=new Uint8Array(20);
+      if (typeof crypto!=='undefined' && crypto.getRandomValues) crypto.getRandomValues(random);
+      else for(let i=0;i<random.length;i++)random[i]=Math.floor(Math.random()*256);
+      id='kaos_'+Array.from(random,n=>n.toString(16).padStart(2,'0')).join('');
+      try{localStorage.setItem('kaostwins_season_01_id',id);}catch(e){}
+    }
+    return id;
+  }
+  ready(function(){
+    const url=String(window.KAOS_POLL_WEBAPP_URL||'').trim();
+    const existing=document.querySelector('#vote-next .kaos-ballot-card');
+    if(!existing) return;
+    if(!url) {
+      const status=existing.querySelector('#kaos-vote-status');
+      if(status)status.textContent='Preview ballot only. Live community voting starts after the Google voting link is connected.';
+      return;
+    }
+    if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec(?:\?.*)?$/.test(url)) {
+      const status=existing.querySelector('#kaos-vote-status');
+      if(status)status.textContent='The Google voting link is not valid. Live voting is not connected.';
+      return;
+    }
+    const area=document.createElement('div');area.className='kaos-ballot-embed';
+    const note=document.createElement('p');note.className='kaos-ballot-embed-notice';
+    note.textContent='✦ Actual shared votes. Results are shown once you vote. You can change your selection without adding another ballot.';
+    const frame=document.createElement('iframe');
+    frame.title='KAOSTWINS live community voting ballot';
+    frame.referrerPolicy='no-referrer';
+    frame.loading='eager';
+    const fragment=url.includes('?')?'&':'?';
+    frame.src=url+fragment+'voter='+encodeURIComponent(getBrowserId());
+    const fallback=document.createElement('p');
+    fallback.className='kaos-ballot-embed-notice';
+    fallback.style.marginTop='10px';
+    const link=document.createElement('a');
+    link.href=url;
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+    link.textContent='Ballot not loading? Open the live voting booth directly ↗';
+    link.style.color='#ffcae8';
+    link.style.textDecoration='underline';
+    fallback.appendChild(link);
+    area.append(note,frame,fallback);
+    existing.replaceChildren(area);
+  });
+})();
+</script>
+
 </body></html>
