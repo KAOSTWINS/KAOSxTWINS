@@ -1124,10 +1124,10 @@ function setPlain(el,txt){if(el)el.textContent=txt;}
 function build(){
  const section=$('vote-next');if(!section)return;
  section.innerHTML=`<div class="shell">
-   <div class="kaos19-header"><div><div class="eyebrow">✦ KAOSTWINS · COMMUNITY // SEASON 01</div><h2>YOU PICK. <span>WE PANIC.</span></h2><p>Pick the next bot disaster, watch real votes roll in, and throw your own idea into the comment pit. You may change your vote. Ronan will be filing a complaint.</p></div><div class="kaos19-chip">🗳️ PUBLIC POLL · RESULTS AFTER VOTING</div></div>
+   <div class="kaos19-header"><div><div class="eyebrow">✦ KAOSTWINS · COMMUNITY // SEASON 01</div><h2>YOU PICK. <span>WE PANIC.</span></h2><p>Pick the next bot disaster, watch real votes roll in, and throw your own idea into the comment pit. You may change your vote. Ronan will be filing a complaint.</p></div><div class="kaos20-actions"><div class="kaos19-chip">🗳️ PUBLIC POLL · RESULTS AFTER VOTING</div><a class="kaos20-comments-link" href="#kaos20-comment-pit">💬 Jump to the Comment Pit ↓</a></div></div>
    <div class="kaos19-columns"><div class="kaos19-pane"><div class="kaos19-kicker">✦ OFFICIAL BALLOT BOX</div><h3>CAST YOUR TERRIBLE DECISION</h3><form id="kaos19-vote-form"><div class="kaos19-options" id="kaos19-choices"><p>Connecting to the chaos server…</p></div><button class="kaos19-button" id="kaos19-vote-button" type="submit" disabled>Cast my vote 🐉</button><div class="kaos19-status" id="kaos19-status" role="status" aria-live="polite">Signing in anonymously…</div></form></div>
    <aside class="kaos19-pane kaos19-side"><div><div class="kaos19-kicker">✦ CURRENT CHAOS</div><h3>THIS IS ON YOU.</h3><p>Results unlock after you vote. The totals refresh automatically while the page is open.</p><p>Each browser keeps one anonymous identity, so you can change your selection without adding another vote. Clearing storage or changing devices can allow additional votes.</p><div class="pinned"><b>📌 Pinned by Zea:</b> “If your idea involves emotionally unavailable men, supernatural disasters or a suspiciously attractive villain, I am listening.” 🖤</div></div><p class="kaos19-fade">Dr♡gon F☆ckers · COMING SOON. Too late to vote against them.</p></aside></div>
-   <div class="kaos19-wall"><div class="kaos19-wall-head"><div><div class="kaos19-kicker">💬 THE COMMENT PIT</div><h3>YOUR IDEAS. OUR PROBLEM.</h3><p>Submit bot ideas here, argue affectionately, or start a campaign for your favourite. Comments are reviewed before they appear.</p></div><span class="kaos19-chip">✦ COMMUNITY WALL</span></div>
+   <div class="kaos19-wall" id="kaos20-comment-pit"><div class="kaos19-wall-head"><div><div class="kaos19-kicker">💬 THE COMMENT PIT</div><h3>YOUR IDEAS. OUR PROBLEM.</h3><p>Submit bot ideas here, argue affectionately, or start a campaign for your favourite. New posts are reviewed before they appear publicly. Your own pending posts remain visible to you.</p></div><span class="kaos19-chip">✦ COMMUNITY WALL</span></div>
     <div id="kaos19-reply-note" hidden></div>
     <form id="kaos19-comment-form" class="kaos19-form">
       <input name="nickname" maxlength="40" minlength="2" aria-label="Nickname" placeholder="Your handle (who do we blame?)" required>
@@ -1204,7 +1204,7 @@ function makeComment(c){
 async function refreshComments(){
  if(!readyForCommunity)return;
  try{const data=await call('kaos_comment_feed');const target=$('kaos19-feed');if(!target)return;target.replaceChildren();
-  if(!data?.length){target.appendChild(node('p','kaos19-fade','The comment pit is suspiciously quiet. Be the first menace.'));return;}
+  if(!data?.length){target.appendChild(node('p','kaos19-fade','No approved comments yet. Be the first to submit a terrible idea. Once it has been reviewed, everyone can see it here.'));return;}
   data.forEach(c=>target.appendChild(makeComment(c)));
  }catch(err){status('Could not load comments: '+explain(err),true,'kaos19-comment-status');}
 }
@@ -1236,13 +1236,164 @@ async function start(){
    readyForCommunity=true;
    const poll=await call('kaos_poll_state');drawPoll(poll);
    $('kaos19-post-button').disabled=false;
-   status('Ready. Comments are published after approval.',false,'kaos19-comment-status');
+   status('Connected. New comments are visible to you while awaiting approval.',false,'kaos19-comment-status');
    await refreshComments();
    setInterval(async()=>{if(document.hidden||!readyForCommunity)return;try{const checked=document.querySelector('#kaos19-choices input:checked')?.value; const poll=await call('kaos_poll_state');drawPoll(poll);if(!poll.selected&&checked){const selected=document.querySelector('#kaos19-choices input[value="'+checked+'"]');if(selected)selected.checked=true;}await refreshComments();}catch(err){}},25000);
  }catch(err){status('Could not connect: '+explain(err),true);status('Community wall unavailable until Supabase setup is complete.',true,'kaos19-comment-status');}
  const watcher=new MutationObserver(()=>fixChristmas());watcher.observe(document.body,{subtree:true,childList:true});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
+
+<style id="kaos-v20-cleanup">
+/* V20: a single polished seasonal composition. Deliberately scoped to the special. */
+#kaos-christmas-special.kaos20-holiday {
+  display:block!important; box-sizing:border-box!important;
+  width:100%!important; max-width:100%!important; min-width:0!important;
+  padding:clamp(18px,3.7vw,46px)!important;
+  margin:28px auto 16px!important;
+  border:1px solid #d8b477!important; border-radius:22px!important;
+  background:
+    radial-gradient(circle at 4% 0%,#8e31493a 0,transparent 42%),
+    radial-gradient(circle at 100% 100%,#22634d73 0,transparent 48%),
+    linear-gradient(124deg,#24131c 4%,#17131b 51%,#12231f 100%)!important;
+  box-shadow:0 22px 70px #0007,inset 0 0 48px #efa66e12!important;
+  overflow:hidden!important; position:relative!important;
+}
+#kaos-christmas-special.kaos20-holiday::before{
+  content:'✧ ❄ ✧   SEASONAL DISASTER DEPARTMENT   ✧ ❄ ✧'!important;
+  display:block!important; position:relative!important; inset:auto!important;
+  width:100%!important; box-sizing:border-box!important; padding:3px 4px 19px!important;
+  text-align:center!important; font:700 10px/1.5 Inter,Arial,sans-serif!important;
+  color:#f9d9b1!important; letter-spacing:.2em!important;
+  background:transparent!important; border:0!important; opacity:.84!important;
+  pointer-events:none!important;
+}
+#kaos-christmas-special.kaos20-holiday::after{display:none!important;content:none!important}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-head{
+  display:grid!important;
+  grid-template-columns:minmax(230px,360px) minmax(0,1fr)!important;
+  align-items:center!important; justify-items:stretch!important;
+  column-gap:clamp(24px,4.2vw,56px)!important;row-gap:22px!important;
+  min-width:0!important;margin:0!important;padding:0!important;
+  position:relative!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-head > img{
+  width:100%!important;max-width:360px!important;max-height:none!important;
+  aspect-ratio:1!important;height:auto!important;
+  display:block!important; object-fit:cover!important; margin:0!important;
+  justify-self:center!important;align-self:center!important;
+  border:2px solid #e9c78f!important; border-radius:15px!important;
+  box-shadow:0 19px 48px #000a,0 0 35px #cb985d35!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-head > div{
+  display:flex!important;flex-direction:column!important;align-items:flex-start!important;
+  justify-content:center!important;min-width:0!important;width:100%!important;
+  text-align:left!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-flag{
+  color:#f1c78e!important;font-size:11px!important;line-height:1.5!important;
+  letter-spacing:.12em!important;margin:0!important;
+}
+#kaos-christmas-special.kaos20-holiday h2{
+  color:#fff0cf!important; font-size:clamp(36px,4.2vw,64px)!important;
+  line-height:.98!important; margin:17px 0 17px!important;
+  text-shadow:0 4px 25px #0007!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-desc{
+  color:#f0dfe1!important;max-width:640px!important;
+  font-size:14px!important;line-height:1.65!important;margin:0 0 9px!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-links{
+  display:flex!important;flex-wrap:wrap!important;align-items:center!important;
+  width:100%!important;gap:10px!important;margin:16px 0!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-links a{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:10px!important;font-size:12px!important;
+  line-height:1.4!important;min-height:44px!important;padding:10px 15px!important;
+  max-width:100%!important;text-align:center!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-links a.secondary{
+  color:#f6eddf!important;background:#29533f!important;border:1px solid #739d79!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-gift{
+  display:inline-flex!important;justify-content:center!important;align-items:center!important;
+  position:static!important;width:auto!important;max-width:100%!important;
+  margin:4px 0 0!important;padding:13px 16px!important;
+  border-radius:10px!important;background:#edc887!important;color:#241821!important;
+  font-size:12px!important;line-height:1.35!important;text-align:center!important;
+  box-shadow:0 6px 18px #0004!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-attr{
+  color:#bfaeae!important;font-size:11px!important;line-height:1.6!important;
+  max-width:640px!important;margin:14px 0 0!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-strip{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  margin:25px 0 0!important;gap:12px!important;min-width:0!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-photo{
+  min-width:0!important;aspect-ratio:4/3!important;height:auto!important;
+  border-radius:12px!important;overflow:hidden!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-photo img{
+  display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;
+}
+#kaos-christmas-special.kaos20-holiday .kaos-xmas-after{
+  font-size:11px!important;line-height:1.65!important;padding:12px 14px!important;
+  margin:15px 0 0!important;background:#1d131b!important;
+}
+.kaos20-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:0}
+.kaos20-comments-link{display:inline-block;text-decoration:none;border:1px solid #b57da4;border-radius:12px;padding:10px 14px;background:#2e2031;color:#ffe1f1;font:800 12px/1.35 Inter,Arial,sans-serif}
+.kaos20-comments-link:hover{background:#513150;color:white}
+#kaos20-comment-pit{scroll-margin-top:90px}
+@media(max-width:800px){
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-head{grid-template-columns:minmax(0,1fr)!important;row-gap:24px!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-head>img{width:min(100%,285px)!important;max-width:285px!important;margin:auto!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-head>div{align-items:center!important;text-align:center!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-links{flex-direction:column!important;align-items:stretch!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-links a,#kaos-christmas-special.kaos20-holiday .kaos-gift{width:100%!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-flag{text-align:center!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-attr{text-align:center!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .kaos20-actions{align-items:flex-start}
+}
+@media(max-width:480px){
+  #kaos-christmas-special.kaos20-holiday{padding:19px 14px 17px!important}
+  #kaos-christmas-special.kaos20-holiday::before{letter-spacing:.08em!important;font-size:9px!important;padding-bottom:14px!important}
+  #kaos-christmas-special.kaos20-holiday h2{font-size:clamp(34px,9vw,46px)!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-strip{grid-template-columns:1fr!important}
+  #kaos-christmas-special.kaos20-holiday .kaos-xmas-photo{aspect-ratio:5/4!important}
+  .kaos20-comments-link{width:100%;text-align:center}
+}
+</style>
+<script id="kaos-v20-christmas">
+(function(){
+ const refresh=()=>{
+   const sec=document.getElementById('kaos-christmas-special');
+   if(!sec || sec.classList.contains('kaos20-holiday'))return;
+   sec.classList.add('kaos20-holiday');
+   const head=sec.querySelector('.kaos-xmas-head');
+   const content=head?.querySelector(':scope > div');
+   const gift=sec.querySelector('#kaos-gift-reveal');
+   const attr=content?.querySelector('.kaos-attr');
+   if(content && gift){
+     if(attr)content.insertBefore(gift,attr); else content.appendChild(gift);
+     gift.textContent='🎁 Open Your Gift. We Accept No Responsibility.';
+   }
+   // The album is already the hero image; don't repeat that same cover in the thumbnails.
+   const strip=sec.querySelector('.kaos-xmas-strip');
+   const first=strip?.querySelector('.kaos-xmas-photo');
+   const firstImage=first?.querySelector('img');
+   const hero=head?.querySelector(':scope > img');
+   if(first && firstImage && hero && firstImage.getAttribute('src')===hero.getAttribute('src')) first.remove();
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
+ const observer=new MutationObserver(refresh);
+ observer.observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 
