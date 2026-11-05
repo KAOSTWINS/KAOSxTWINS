@@ -229,6 +229,22 @@ footer:before{content:"";display:block;height:3px;background:linear-gradient(to 
 @media(prefers-reduced-motion:no-preference){.kaos-holiday-teaser:before{animation:kaos-glisten 6s ease-in-out infinite alternate}@keyframes kaos-glisten{to{opacity:.38;filter:brightness(1.4)}}}
 @media(max-width:1060px){.header .navlinks{gap:10px}.header .navlinks a{font-size:10px}}
 </style>
+<style id="kaos-v18-ballot-ui">
+.kaos-v18-ballot{padding:clamp(12px,2vw,18px)}
+.kaos-v18-kicker{font:800 11px Inter,Arial,sans-serif;letter-spacing:.16em;color:#edacd9;margin-bottom:15px}
+.kaos-v18-ballot h3{font-size:clamp(25px,3.3vw,42px);line-height:1.05;color:#fff;margin:0 0 13px}
+.kaos-v18-ballot p{font:400 13px/1.7 Inter,Arial,sans-serif;color:#d3bfd1;margin:0 0 18px}
+.kaos-v18-choices{display:grid;gap:9px;margin:16px 0 23px}
+.kaos-v18-choice{display:flex;align-items:center;gap:12px;border:1px solid #ad77a24f;background:#ffffff06;border-radius:12px;padding:11px 14px}
+.kaos-v18-emoji{font-size:25px;width:36px;text-align:center;flex-shrink:0}
+.kaos-v18-choice strong{display:block;font:800 13px/1.35 Inter,Arial,sans-serif;color:#fff}
+.kaos-v18-choice small{display:block;font:400 11px/1.5 Inter,Arial,sans-serif;color:#cab6c8;margin-top:3px}
+.kaos-v18-vote-link{display:block;text-align:center;background:linear-gradient(110deg,#e2b0de,#d7a9ed);color:#271224!important;text-decoration:none!important;border-radius:10px;padding:17px 12px;font:900 12px Inter,Arial,sans-serif;letter-spacing:.05em}
+.kaos-v18-vote-link:hover{filter:brightness(1.09);transform:translateY(-1px)}
+.kaos-v18-note{margin:13px 0 8px!important;text-align:center;font-size:11px!important}
+.kaos-v18-raw-link{display:block;text-align:center;color:#efbee9;font:600 11px/1.6 Inter,Arial,sans-serif;text-decoration:underline;margin-top:8px}
+@media(max-width:540px){.kaos-v18-ballot{padding:6px}.kaos-v18-choice{padding:10px}.kaos-v18-ballot h3{font-size:27px}}
+</style>
 </head><body>
 <div class="topbar">CREATORVERSE EXPERIMENT 001 <b>✦</b> ORIGINAL STORIES / ART / MUSIC / CHAOS</div>
 <header class="header"><div class="shell nav"><a href="#top" class="brand" aria-label="KAOSTWINS Home">KAOS<span class="slash">✕</span>TWINS <small>WELCOME TO THE CREATORVERSE</small></a><nav class="navlinks" id="navlinks"><a href="#featured-collabs">Collabs ✦</a><a href="#worlds">Universes</a><a href="#twins">The Twins</a><a href="#music">Music</a><a href="#gallery">Gallery</a><a href="#fan-archive">Fan Art</a><a href="#vote-next">Vote next</a><a href="#community">Community</a></nav><div class="nav-right"><a href="#worlds" class="outline-button">Explore the chaos ↗</a><button class="menu-toggle" aria-label="Open menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰</button></div></div></header>
@@ -888,58 +904,49 @@ if(base){refreshRealResults();const form=document.getElementById('kaos-poll-form
 // Example: window.KAOS_POLL_WEBAPP_URL = 'https://script.google.com/macros/s/ABC.../exec';
 window.KAOS_POLL_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw5gmHQxkkK5NhFd5TUW8T8j2qiBjW6PtbPtxAAteXgn-ag0q-5B6fX4NBmfs_CRqmWpw/exec';
 </script>
-<script id="kaos-v15-live-ballot-loader">
+<script id="kaos-v18-ballot-safe-external">
+/* V18: Replaces third-party embedded iframe (may return Google 401) with an external voting link. */
 (function(){
   'use strict';
-  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn,{once:true});else fn();}
+  function ready(fn){if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fn,{once:true});}else{fn();}}
   function getBrowserId(){
-    let id='';
-    try{id=localStorage.getItem('kaostwins_season_01_id')||'';}catch(e){}
-    if(!/^[A-Za-z0-9_-]{20,100}$/.test(id)) {
-      const random=new Uint8Array(20);
-      if (typeof crypto!=='undefined' && crypto.getRandomValues) crypto.getRandomValues(random);
-      else for(let i=0;i<random.length;i++)random[i]=Math.floor(Math.random()*256);
-      id='kaos_'+Array.from(random,n=>n.toString(16).padStart(2,'0')).join('');
-      try{localStorage.setItem('kaostwins_season_01_id',id);}catch(e){}
+    let id='';try{id=localStorage.getItem('kaostwins_season_01_id')||'';}catch(_e){}
+    if(!/^[A-Za-z0-9_-]{20,100}$/.test(id)){
+      const b=new Uint8Array(20);crypto.getRandomValues(b);
+      id='kaos_'+Array.from(b,n=>n.toString(16).padStart(2,'0')).join('');
+      try{localStorage.setItem('kaostwins_season_01_id',id);}catch(_e){}
     }
     return id;
   }
   ready(function(){
+    const box=document.querySelector('#vote-next .kaos-ballot-card');
+    if(!box)return;
     const url=String(window.KAOS_POLL_WEBAPP_URL||'').trim();
-    const existing=document.querySelector('#vote-next .kaos-ballot-card');
-    if(!existing) return;
-    if(!url) {
-      const status=existing.querySelector('#kaos-vote-status');
-      if(status)status.textContent='Preview ballot only. Live community voting starts after the Google voting link is connected.';
-      return;
-    }
-    if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec(?:\?.*)?$/.test(url)) {
-      const status=existing.querySelector('#kaos-vote-status');
-      if(status)status.textContent='The Google voting link is not valid. Live voting is not connected.';
-      return;
-    }
-    const area=document.createElement('div');area.className='kaos-ballot-embed';
-    const note=document.createElement('p');note.className='kaos-ballot-embed-notice';
-    note.textContent='✦ Actual shared votes. Results are shown once you vote. You can change your selection without adding another ballot.';
-    const frame=document.createElement('iframe');
-    frame.title='KAOSTWINS live community voting ballot';
-    frame.referrerPolicy='no-referrer';
-    frame.loading='eager';
-    const fragment=url.includes('?')?'&':'?';
-    frame.src=url+fragment+'voter='+encodeURIComponent(getBrowserId());
-    const fallback=document.createElement('p');
-    fallback.className='kaos-ballot-embed-notice';
-    fallback.style.marginTop='10px';
-    const link=document.createElement('a');
-    link.href=url;
-    link.target='_blank';
-    link.rel='noopener noreferrer';
-    link.textContent='Ballot not loading? Open the live voting booth directly ↗';
-    link.style.color='#ffcae8';
-    link.style.textDecoration='underline';
-    fallback.appendChild(link);
-    area.append(note,frame,fallback);
-    existing.replaceChildren(area);
+    const valid=/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec(?:\?.*)?$/.test(url);
+    const options=[
+      ['👑','Fable: The Heroic Complaint Department','Albion desperately needs a competent hero. Tragic.'],
+      ['🛎️','The Last Check-In','Five-star service. Questionable survival rate.'],
+      ['📋',"The Villain’s HR Department",'Evil has benefits. Apparently.'],
+      ['🏴‍☠️','Mutiny & Margaritas','Pirates, problems and a deeply suspicious itinerary.'],
+      ['🧌','Monster Support Group','Feelings, fangs and administrative nightmares.']
+    ];
+    const panel=document.createElement('div');panel.className='kaos-v18-ballot';
+    const kicker=document.createElement('div');kicker.className='kaos-v18-kicker';kicker.textContent='🗳️ KAOS ELECTIONS // SEASON 01';
+    const title=document.createElement('h3');title.textContent='VOTE FOR THE NEXT DISASTER';
+    const desc=document.createElement('p');desc.textContent='One selection. Five catastrophes. The Google voting booth opens separately so it does not get blocked inside this page.';
+    const list=document.createElement('div');list.className='kaos-v18-choices';
+    options.forEach(([emoji,name,blurb])=>{const item=document.createElement('div');item.className='kaos-v18-choice';const em=document.createElement('span');em.className='kaos-v18-emoji';em.textContent=emoji;const words=document.createElement('span');const strong=document.createElement('strong');strong.textContent=name;const small=document.createElement('small');small.textContent=blurb;words.append(strong,small);item.append(em,words);list.appendChild(item)});
+    const link=document.createElement('a');link.className='kaos-v18-vote-link';link.target='_blank';link.rel='noopener noreferrer';
+    if(valid){
+      const separator=url.includes('?')?'&':'?';
+      link.href=url+separator+'voter='+encodeURIComponent(getBrowserId());
+      link.textContent='OPEN THE LIVE VOTING BOOTH ↗';
+    }else{link.href='#vote-next';link.textContent='VOTING IS NOT YET CONFIGURED';link.setAttribute('aria-disabled','true');link.addEventListener('click',e=>e.preventDefault());}
+    const note=document.createElement('p');note.className='kaos-v18-note';note.textContent=valid?'Votes and results are handled by Google Sheets. After voting, return to KAOSTWINS for the rest of the chaos.':'The ballot needs a published Google voting-service address.';
+    const backup=document.createElement('a');backup.className='kaos-v18-raw-link';backup.target='_blank';backup.rel='noopener noreferrer';backup.href=valid?url:'#vote-next';backup.textContent='Having trouble? Open the plain voting link';
+    panel.append(kicker,title,desc,list,link,note);
+    if(valid)panel.append(backup);
+    box.replaceChildren(panel);
   });
 })();
 </script>
