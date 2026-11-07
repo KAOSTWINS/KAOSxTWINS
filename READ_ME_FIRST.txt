@@ -1,22 +1,24 @@
-KAOSTWINS V23 | OFFLINE PREVIEW | 7 November 2026
+KAOSTWINS V24 | OFFLINE PREVIEW | 7 NOVEMBER 2026
 
-OPEN: Double-click index.html to preview the site in a browser.
-       There are no extra image or audio folders to unpack. This is a self-contained HTML file.
+HOW TO OPEN
+- Double-click index.html, preferably in Chrome or Firefox.
+- All new images and both user-supplied Holy Cluck audio files are embedded.
+- No installation, extra asset folder or web server required to open the HTML.
+- Album playlist links open Suno and require an internet connection. Native full-album audio has NOT been provided or installed.
 
-V23 CHANGES:
-- Dragon F☆ckers receives five individual musician dossiers with photo galleries and a separate Band Together section.
-- Lifestyle photos for Zea, Ronan, Kai and Ezra, plus Vera's approved portrait.
-- Graham Arthur Finch, Tax Fraudulent III (three-legged Maine Coon) and Sir Reginald Fuckwit get individual mini-dossiers and gallery photographs.
-- A locally playable, user-provided Holy Cluck "Done Right" song appears on the Dragon page.
-- Seven Deadly Sins profiles are in a 1–3–3 arrangement; click the cards to open character hobbies, role, quirks and their available individual portrait.
-- The pre-existing site's main music player, other universes, archive and community interfaces are preserved.
-- Former private Dragon character backstory in the old page was removed from the embedded Dragon catalog.
-- Gallery image files are embedded in the HTML for offline viewing; no photo folders required.
+WHAT CHANGED
+1) Holy Cluck includes the original “Done Right” player PLUS a hidden “wrong song” player under “I HAVE CULTURE, ACTUALLY.” Nothing auto-plays.
+2) The Unholy Alliance and Season's Greedings are illustrated album cards with continuously rotating CD artwork (pause/spin controls). 'Listen on Suno' leads to the existing verified album playlists. Native album playback is labelled coming later.
+3) Sir Reginald Fuckwit now belongs on Stormfall’s Sins page, including an interactive complaint desk and dossier; he is no longer on the Dragon band crew page.
+4) Existing bot galleries and After Dark galleries have a mobile-friendly responsive masonry stack without the giant first-image gaps.
+5) Pride gets a featured editorial spread above a neat grid of the other six Sins, no awkward empty top row.
+6) Stormfall’s World Notes now give actual band information, roles, credit, offstage interests and the crossover relationship, not update notes.
+7) The Vow He Broke (modern A/B/O) and Stranger Things: Dead Air (1987 supernatural horror) have clearly labelled coming-soon cards and dedicated placeholder pages with no fake art or bot links.
+8) Humour: Pride’s VIP ego, Reginald complaints, Tax’s unofficial personnel file, album liner notes, dossier and gallery jokes, and the footer’s unhinged legal-ish disclaimer.
+9) Existing music/radio, non-band bots, artwork, and site styling are preserved.
 
-SAFE RELEASE NOTES:
-This ZIP is a preview and does NOT publish or alter an existing website.
-Community interactions or embedded third-party services require a connection and may be unavailable offline.
-The original site may still contain older non-Dragon external image references (assets/...) not supplied with the prior V22 one-file download.
-Sins individual galleries contain only the official approved portrait currently available for each character; no unapproved photos were invented.
-
-CREATOR CREDIT: The Seven Deadly Sins and Sir Reginald belong to Stormfall. The band universe and its characters belong to KAOSTWINS.
+IMPORTANT
+- This is an OFFLINE PREVIEW. No live website has been changed or published.
+- This update retains the V23 file as a baseline. Some older V22/V23 references to external local "assets/" images may still be unavailable if they were missing from the prior standalone export. The new V24 music and image components themselves are embedded.
+- Original Sins characters and Sir Reginald belong to Stormfall. KAOSTWINS collaboration is credited.
+- Some browsers' security settings may restrict local embedded media. Opening the complete HTML in a normal browser is recommended.
