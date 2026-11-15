@@ -1,0 +1,13 @@
+{
+  "release": "KAOSTWINS V34 Ezra \u00b7 optimized web deployment",
+  "files_externalized": 249,
+  "instances_replaced": 260,
+  "types": {
+    "image/webp": 253,
+    "image/png": 4,
+    "audio/mpeg": 3
+  },
+  "entrypoint": "index.html",
+  "instructions": "Merge entire package into your existing GitHub Pages repository, preserving unrelated existing assets/ and files. Upload assets/packed/ too, not only index.html. The original release remains backed up as a standalone HTML file.",
+  "bot_link": "https://dreamjourneyai.com/creation/f6c48363-451d-482f-ad0a-91847d2a46ca"
+}
