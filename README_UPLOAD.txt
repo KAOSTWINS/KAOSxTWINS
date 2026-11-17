@@ -1,42 +1,41 @@
-KAOSTWINS CREATORVERSE · VERSION 35
-THE ASHBOURNE INHERITANCE · MERGED EZRA + FOURTH CUP · VOWS FAN GALLERY
-========================================================================
+KAOSTWINS CREATORVERSE · VERSION 36
+DARIUS MOROZOV RESTORED · VOWS + ASHBOURNE + FOURTH CUP + EZRA
+==================================================================
 
-COMPLETE WEBSITE UPLOAD FOR GITHUB PAGES
+FULL WEBSITE REPLACEMENT FOR GITHUB PAGES
 
-WHAT'S INCLUDED
-- index.html: latest site code (includes every previously established bot page)
-- assets/packed/: the optimized base and Ezra V34 media assets
-- assets/fourth-cup/: the merged Fourth Cup galleries and page styling
-- assets/ashbourne/: Ashbourne galleries, 3 lead character profiles, 5 interactive
-  clues, 4 estate images, After Dark artwork and 9 community Vows fan pieces
+WHAT IS NEW IN V36
+- Restores Darius Morozov, 36, as an OPTIONAL lead on The Vow He Broke website.
+- Dedicated feature with the original Darius Morozov: The Rebel Alpha visual.
+- Correct Uncrowned faction, elected leadership, sunflower motif, family relationship.
+- His poster is now in the public Cast gallery and full-size image viewer.
+- His own entry and filter are in the opt-in 18+ After Dark gallery.
+- Existing Cassian, Aleksandr and Sacha galleries remain intact.
+- Existing 9 Vows fan-submission images remain on Vows AND the community archive.
+- Ashbourne gothic story page and interactive letters retained.
+- Ezra's gallery/mixtape and The Fourth Cup retained.
 
-HOW TO DEPLOY
-1. Back up the existing website/repository.
-2. Extract this ZIP on your computer.
-3. Upload index.html and the entire assets/ directory to the ROOT of your
-   existing KAOSxTWINS GitHub Pages repository, preserving folder names.
-4. Overwrite matching files. Do not delete other, unlisted existing site files.
-5. Commit the changes and let GitHub Pages finish deployment.
-6. Check the homepage, Ezra, Fourth Cup, Vows and Ashbourne on desktop/mobile.
+DEPLOY (GitHub Pages)
+1. Back up your current repository.
+2. Extract this ZIP. Keep index.html and the entire assets/ folder together.
+3. Copy index.html and the assets/ directory to your existing GitHub Pages
+   repository ROOT. Overwrite matching files and merge asset folders.
+4. Keep other unrelated repository files and folder structure untouched.
+5. Commit and let GitHub Pages publish.
+6. Force refresh in browser (Ctrl+F5) to clear old cached pages.
+7. Check #bot/vow: Darius feature beneath Cassian/Aleksandr, Darius in Cast
+   image gallery, and Darius filter in unlocked After Dark gallery.
 
-NEW ASHBOURNE PAGE
-https://kaostwins.github.io/KAOSxTWINS/#bot/ashbourne
-Dreamjourney: https://dreamjourneyai.com/creation/f5df0856-5330-435c-94c6-e2315eaddf49
+URL OF VOWS PAGE (AFTER DEPLOY):
+https://kaostwins.github.io/KAOSxTWINS/#bot/vow
 
-TESTED LOCALLY
-- Direct navigation for Ezra, Fourth Cup, The Vow He Broke and Ashbourne
-- Five envelope clues, Wycliffe's evidence tabs, click-to-zoom galleries
-- Adult opt-in After Dark filter by each man
-- Nine new Vows fan artworks on Vows page AND main community archive
-- Mobile view without horizontal overflow
+STATUS
+- Successfully tested on desktop + mobile in local Chromium.
+- Vows public poster, image viewer and Darius After Dark filter verified.
+- Vows fan gallery: 9 original submissions verified.
+- Ashbourne / Fourth Cup / Ezra routes verified.
+- No page JavaScript errors, no mobile horizontal overflow.
+- NOT deployed automatically. Upload package to publish.
 
-NOTES
-- The Vows fan submissions did not include verified artist handles. Their
-  gallery entries explicitly mark credits as pending until supplied.
-- The four locations were individually cropped from the supplied location panel.
-- This is a static website update. It has not been uploaded to GitHub.
-- After Dark artwork is opt-in and labelled adult.
-- The developer should confirm any third-party audio publishing rights.
-
-KAOSTWINS · NOVEMBER 2026
+Note: This includes the FULL V35 site plus the Darius corrections. No need
+ to upload V35 first.
