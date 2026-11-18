@@ -1,21 +1,7 @@
 {
-  "release": "KAOSTWINS V36 \u00b7 Darius Restored",
-  "base": "KAOSTWINS V35 \u00b7 Ashbourne / Fourth Cup + Ezra combined",
-  "entrypoint": "index.html",
-  "important": "Upload index.html and merge the full assets/ directory to repo root; preserve other site files.",
-  "changes": [
-    "Darius Morozov optional romance dossier",
-    "Uncrowned lore and Cast gallery",
-    "18+ Darius After Dark filter",
-    "All V35 features preserved"
-  ],
-  "tested": [
-    "vow poster viewer",
-    "vow afterdark filter",
-    "vows fan submissions",
-    "ashbourne page",
-    "fourth-cup",
-    "ezra",
-    "mobile no horizontal overflow"
-  ]
+  "release": "KAOSTWINS V37",
+  "notes": "V36 retained with Darius, Ashbourne, Ezra, Fourth Cup and Vows fan art; Eden Mall added as independent interactive page. Supabase not configured until owner fills public config and deploys backend.",
+  "version": "V39",
+  "feature": "Gabe public personnel notes + joint moderation",
+  "supabase_project": "existing"
 }

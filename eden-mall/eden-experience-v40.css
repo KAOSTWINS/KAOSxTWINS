@@ -1,0 +1,75 @@
+
+/* KAOSTWINS V40 / LOVE IN THE APOCALYPSE EXPERIENCE UPGRADES */
+#directory .floorplan{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,91px);gap:8px;transform:rotate(-.3deg)}
+#directory .mallmap{padding:22px;min-height:545px;background:radial-gradient(circle at 45% 54%,#2a3d32,#121d19 75%)}
+#directory .lot{padding:8px 4px;gap:2px;line-height:1.2;min-height:0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #79927388;position:relative;transition:background .18s,border-color .18s,transform .18s;color:#dce5c8}
+#directory button.lot:hover{border-color:#d9eab1;transform:translateY(-2px);z-index:1}
+#directory .lot span{font-size:22px;line-height:1.1}
+#directory .lot .zone-name{font:800 10px/1.2 'Courier New',monospace;letter-spacing:.5px;text-align:center;color:#e6e8c9}
+#directory .lot .zone-operator{font:700 8px/1.2 'Courier New',monospace;letter-spacing:1px;color:#b2c5a1;text-align:center}
+#directory .lot.ambient{background:#111c19;border-style:dashed;border-color:#56726666;color:#8aa58f;cursor:default}
+#directory .lot.ambient span{opacity:.7}#directory .lot.ambient.locked{background:repeating-linear-gradient(-45deg,#18221e,#18221e 8px,#111915 8px,#111915 17px)}
+#directory .lot.active{background:#cfdfa8!important;border-color:#f6eeba!important;box-shadow:inset 0 0 0 1px #f9f4d966}
+#directory .lot.active .zone-name,#directory .lot.active .zone-operator{color:#1b3022}
+#directory .route{right:20px;bottom:19px;font-size:9px}
+#directory .location-detail{min-height:545px;display:flex;flex-direction:column}
+#directory .location-detail img{height:245px;object-fit:cover;object-position:center 23%;filter:saturate(.85)}
+#directory .location-detail #locBody{margin-bottom:20px}
+#directory .location-detail #locFoot{margin-top:auto}
+#residents .residents{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+#residents .person{display:flex;flex-direction:column;min-height:475px}
+#residents .person img{height:277px;object-position:center 20%}
+#residents .person .person-body{display:flex;flex-direction:column;flex:1}
+#residents .person .person-body p{flex:1}
+#residents .person .card-arrow{margin-top:auto;padding-top:12px}
+#residents .person h3{font-size:24px;line-height:1.15}
+#residents .id-stamp{z-index:2}
+#residents .person:focus-visible{outline:2px solid #e6ecaf;outline-offset:2px}
+#residents .recruitment-card{grid-column:span 3;min-height:475px;display:flex;flex-direction:column;justify-content:space-between;gap:25px;padding:36px;border:1px solid #8fa38066;background:linear-gradient(90deg,#17251e 9%,#17251edb 55%,#14211bc5),url('../assets/eden/eden-mall-poster.webp') center/cover;transition:.2s}
+#residents .recruitment-card:hover{border-color:#d4e6a4;transform:translateY(-2px)}
+#residents .recruitment-card h3{font:500 clamp(33px,4vw,58px)/1 Georgia,serif;margin:15px 0;color:#f1ead7}
+#residents .recruitment-card h3 em{color:#ec8761}
+#residents .recruitment-card p{font-size:16px;line-height:1.5;color:#d3d5c7;max-width:485px}
+#residents .recruitment-card strong{display:inline-block;color:#d6e5ac;font:800 11px 'Courier New',monospace;letter-spacing:1px;border-bottom:1px solid #acc58e;padding-bottom:6px}
+#residents .recruitment-card .recruitment-icon{font-size:27px;color:#e3b37d}
+#residents .recruitment-card .recruitment-foot{font:800 9px 'Courier New',monospace;letter-spacing:1.5px;color:#adbea3}
+
+.match-output .match-photo{width:100%;max-height:210px;object-fit:cover;object-position:center 22%;display:block;margin:11px 0 15px;border:1px solid #69856d}
+.match-output h3{font-size:37px;line-height:1.07;margin:6px 0}
+.match-output .match-role{font:800 10px 'Courier New',monospace;letter-spacing:1.1px;color:#a8bc94;margin-bottom:14px}
+.match-output .match-first{font:italic 15px/1.5 Georgia,serif;color:#d5d8b6}
+.match-output .match-actions{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.match-output .match-actions button{font-size:10px;padding:12px}
+#noticeboard .board-tools{display:flex;align-items:flex-end;flex-direction:column;gap:10px}
+#noticeboard .board-more{font-size:10px;letter-spacing:1px;padding:11px}
+#noticeboard .notice-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:23px 16px;padding-top:4px}
+#noticeboard .note{min-height:220px;padding:24px 20px;box-shadow:5px 10px 3px #0008;transform:rotate(-.8deg);position:relative}
+#noticeboard .note:nth-child(3n+2){transform:rotate(1deg)}#noticeboard .note:nth-child(4n){transform:rotate(-1.4deg)}
+#noticeboard .note:after{content:'';position:absolute;top:-8px;left:46%;width:68px;height:18px;background:#be87738c;transform:rotate(-4deg);opacity:.9}
+#noticeboard .note:nth-child(3n+2):after{left:26%;background:#afb48996;transform:rotate(6deg)}
+#noticeboard .note.note-sage{background:#d3daba}
+#noticeboard .note.note-paper{background:#dfd8bc}
+#noticeboard .note.note-rose{background:#dec2b9}
+#noticeboard .note.note-tan{background:#d8c7a6}
+#noticeboard .note h3{font-size:16px;line-height:1.2;margin:18px 0 10px}
+#noticeboard .note p{font:15px/1.5 Georgia,serif;color:#31382e}
+#noticeboard .note .scrawl{margin-top:12px;font:italic 14px Georgia,serif;color:#834735}
+#noticeboard .notice-disclaimer{margin:25px 0 0;color:#92a493;font:700 10px/1.6 'Courier New',monospace;letter-spacing:.8px}
+#radio-station .radio-live-pill{font:800 10px 'Courier New',monospace;color:#d5edb7;letter-spacing:1px}
+#radio-station .radio-panel{grid-template-columns:1.08fr 1fr;gap:20px}
+#radio-station .radio-buttons{display:flex;flex-wrap:wrap;gap:7px}
+#radio-station [data-radio].on-air{color:#1b2b22;background:#d5dfa4;border-color:#d5dfa4}
+#radio-station .audio-controls{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:23px 0 7px}
+#radio-station .audio-controls button{font-size:10px;padding:10px 12px}
+#radio-station .audio-controls button:disabled{opacity:.45;cursor:default}
+#radio-station .radio-vol{display:flex;align-items:center;gap:7px;font:800 10px 'Courier New',monospace;color:#bfd0ad}
+#radio-station .radio-vol input{accent-color:#c9e3a7;width:100px}
+#radio-station .radio-status{font:11px/1.5 'Courier New',monospace;color:#afc0b0;margin-top:14px}
+#radio-station .radio-station-title{font:700 10px 'Courier New',monospace;letter-spacing:1.1px;color:#e5b082;margin:9px 0}
+#radio-station .radio-signature{font:700 9px 'Courier New',monospace;color:#8d9e84;margin-top:24px;border-top:1px solid #70876b55;padding-top:12px}
+#radio-station .wave-live i{animation:eden-wave .75s ease-in-out infinite alternate;animation-delay:calc(var(--h)*-18ms)}
+@keyframes eden-wave{from{transform:scaleY(.3)}to{transform:scaleY(1.28)}}
+@media (max-width:1100px){#residents .residents{grid-template-columns:repeat(3,minmax(0,1fr))}#residents .recruitment-card{grid-column:span 2}#directory .floorplan{grid-template-rows:repeat(4,82px)}#directory .mallmap,#directory .location-detail{min-height:490px}}
+@media (max-width:850px){#directory .directory-wrap{grid-template-columns:1fr}#directory .mallmap,#directory .location-detail{min-height:0}#directory .location-detail img{height:240px}#residents .residents{grid-template-columns:repeat(2,minmax(0,1fr))}#residents .recruitment-card{grid-column:span 1}#radio-station .radio-panel{grid-template-columns:1fr}#noticeboard .notice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){#directory .floorplan{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,78px);gap:5px;transform:none}#directory .mallmap{padding:12px}#directory .lot{padding:5px 2px}#directory .lot span{font-size:17px}#directory .lot .zone-name{font-size:8px;letter-spacing:0}#directory .lot .zone-operator{font-size:7px;letter-spacing:0}#directory .mapheader strong{font-size:9px}#directory .route{font-size:7px;right:10px;bottom:9px}#directory .location-detail img{height:230px}#residents .residents{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#residents .recruitment-card{grid-column:span 1;min-height:325px;padding:16px}#residents .recruitment-card h3{font-size:25px}#residents .recruitment-card p{font-size:12px}#residents .recruitment-card .recruitment-foot{font-size:7px}#residents .person{min-height:325px}#residents .person img{height:180px}#residents .person h3{font-size:18px}#residents .person .person-body p{display:none}#residents .person .person-body{padding:12px 10px}#residents .person .person-body small{font-size:8px}#residents .person .card-arrow{font-size:9px}#noticeboard .notice-grid{grid-template-columns:1fr;gap:22px}#noticeboard .board-tools{align-items:flex-start}#radio-station .audio-controls{gap:5px}#radio-station .radio-vol input{width:75px}}
+@media(prefers-reduced-motion:reduce){#radio-station .wave-live i{animation:none}}

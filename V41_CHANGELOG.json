@@ -1,0 +1,108 @@
+{
+  "version": "V41 review draft",
+  "date": "2026-11-18",
+  "state": "NOT DEPLOYED / NOT PUBLISHED",
+  "images": {
+    "gabe": {
+      "source": "LITA/GABE/Gabe_ Eden Mall Survivor Portrait-4.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 227106
+    },
+    "ilya": {
+      "source": "LITA/ILYA/ChatGPT Image Nov 17, 2026, 03_52_11 PM-1.png",
+      "new_width": 1120,
+      "new_height": 1400,
+      "bytes": 247040
+    },
+    "emmett": {
+      "source": "LITA/EMMETT/Freckled Survivor at Eden Mall.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 223488
+    },
+    "mal": {
+      "source": "LITA/MAL/Mal Brooks at the Trading Post.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 130240
+    },
+    "beck": {
+      "source": "LITA/BECK/Brooding Tattooed Man on Leather Couch-2.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 139122
+    },
+    "jun": {
+      "source": "LITA/JUN/Rooftop Survivor at Golden Hour-1.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 151550
+    },
+    "rowan": {
+      "source": "LITA/ROWAN/Rugged Craftsman in Eden Mall Workshop-12.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 229318
+    },
+    "vex": {
+      "source": "LITA/VEX/Gothic Lockpicker in an Antique Boutique-1.png",
+      "new_width": 930,
+      "new_height": 1400,
+      "bytes": 175464
+    },
+    "toby": {
+      "source": "LITA/TOBY/Toby Varga at Eden Mall-16.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 181232
+    },
+    "jasper": {
+      "source": "LITA/JASPER/Jasper Solis in the Eden Mall Workshop-21.png",
+      "new_width": 1400,
+      "new_height": 933,
+      "bytes": 234866
+    },
+    "milo": {
+      "source": "LITA/MILO/Eden Mall Comms Workshop Technician-24.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 234760
+    },
+    "aiden": {
+      "source": "LITA/AIDEN/Post-Apocalyptic Field Medic Portrait.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 229236
+    },
+    "santino": {
+      "source": "LITA/SANTINO/Eden Mall Survivor Portrait.png",
+      "new_width": 1254,
+      "new_height": 1254,
+      "bytes": 212222
+    }
+  },
+  "axel": {
+    "creator": "Stormfall",
+    "bot": "https://dreamjourneyai.com/app/creation/f88295d8-9e77-4f43-83be-5df44b825605",
+    "art": "Type-only heraldic guest design. Official Axel artwork not located in this bundle."
+  },
+  "carryover": [
+    "All V40 website pages and assets",
+    "Darius Morozov and existing Vow galleries",
+    "13 Eden interactive locations, registry and quiz",
+    "Community radio prototype kept until approved original audio supplied"
+  ],
+  "remaining": [
+    "Confirm official Axel portrait and replace temporary type-only insignia if desired",
+    "Review public character descriptions vs canon and confirm no secret lore shared",
+    "Test hosted Supabase, Turnstile and Gabe moderation before enabling real submissions",
+    "Add approved original Suno audio",
+    "User sign-off before deployment"
+  ],
+  "canon_audit": {
+    "source": "EDEN_MALL_V2_WITH_RAFE_EASTER_EGG.json",
+    "checks": "all 13 names, ages and roles checked against character entries; public copy revised to preserve three equal founders, Gabe Dad and Emmett Mom",
+    "privacy": "Only public character-facing details used. The private lorebook itself is not included."
+  }
+}
