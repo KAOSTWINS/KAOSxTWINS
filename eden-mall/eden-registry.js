@@ -13,6 +13,7 @@ const status=byId('edenSubmitFeedback');
 const form=byId('edenIntakeForm');
 const inputs=['personaName','personaAge','personaPronouns','personaOccupation','personaArrival','personaTrait','personaFlaw','personaKeepsake','personaRole','personaTone','personaAvatar','personaPatrol'];
 let generated=null,cardFlipped=false,residents=[],entryMade=false;
+ let portraitImage=null,portraitDataUrl="";
 const demos=[
   {resident_number:841,character_name:'Rowan Vale',age:27,pronouns:'They/Them',old_world_occupation:'Aquarium maintenance technician',arrival_story:'Followed a radio signal through the city',strength:'Quick-thinking',flaw:'Dangerously curious',keepsake:'A cracked cassette player',division:'Maintenance',tone:'Grounded',avatar_style:'green',incident:'Restored an old fountain without asking. Gabriel has questions. Ilya privately admired the filtration work.',persona_text:'Rowan Vale, 27, worked on aquarium filtration systems before the fall. Clever and dangerously curious, they followed a radio signal to Eden Mall carrying a cracked cassette player. The fountain was their first mistake. Their assigned post is Maintenance.',gabe_comment:"Resident has restored a fountain, endangered a filtration system, and somehow earned the gardener's approval. Assigned to Maintenance. Do not leave unsupervised with plumbing. — G. Thorne",status:'approved'},
   {resident_number:842,character_name:'Cass Finch',age:25,pronouns:'She/Her',old_world_occupation:'Tattoo artist',arrival_story:'Escaped a hostile settlement',strength:'Keeping people calm',flaw:'Hates following orders',keepsake:'A little red sketchbook',division:'Medical',tone:'Chaotic',avatar_style:'rust',incident:'Declared the infirmary wall too depressing and drew a cheerful sun on it. The sun is anatomically incorrect. Emmett thinks it is wonderful.',persona_text:'Cass Finch was a tattoo artist before the outbreak, and still finds ways to make things beautiful. She came from a hostile settlement with a battered sketchbook. Now helping in Medical, she has a natural gift for calming frightened people and an equally natural allergy to orders.',gabe_comment:"The infirmary does not require murals, but morale has improved. Keep the art supplies. Stop drawing on the emergency exits. — G. Thorne",status:'approved'},
@@ -51,13 +52,32 @@ function buildPersona(reroll=false){
  const intro=`${v.character_name}, ${v.age}, used to work as ${v.old_world_occupation} before the outbreak. They reached Eden Mall after they ${v.arrival_story.charAt(0).toLowerCase()+v.arrival_story.slice(1)}. Their greatest strength is ${v.strength.toLowerCase()}, though ${v.flaw.toLowerCase()} tends to complicate things. They still keep ${v.keepsake}. Now a provisional member of ${v.division}, they are trying to build a life inside the mall. ${toneText} Their first encounter: ${encounters[v.patrol]}`;
  generated={...v,incident:situation,persona_text:intro,_incidentIndex:ind};
  entryMade=true;cardFlipped=false;renderCard();byId('rerollIncident').disabled=false;byId('copyPersona').disabled=false;byId('downloadPersonaCard').disabled=false;byId('submitToGabe').disabled=false;
- setMessage(connected?'FILE GENERATED. Review the details and consent, then submit to Gabe for approval.':'PREVIEW MODE. Your ID works locally, but submitting cannot reach Gabe until Supabase is connected.');
+ setMessage(connected?'FILE GENERATED. Review the details and consent, then submit to Gabe for approval.':'PREVIEW MODE. Supabase is available, but public submissions are paused until Turnstile and the secure submission endpoint are configured.');
 }
-function renderCard(){if(!generated)return;const v=generated;byId('idName').textContent=v.character_name.toUpperCase();byId('cardBackName').textContent=v.character_name.toUpperCase();byId('cardSub').textContent=`AGE ${v.age} · ${v.pronouns.toUpperCase()}`;byId('idRole').textContent=v.division.toUpperCase();byId('idTrait').textContent=v.strength.toUpperCase();byId('cardFlaw').textContent=v.flaw.toUpperCase();byId('cardAvatar').firstChild.textContent=initialLetters(v.character_name);byId('cardAvatar').dataset.theme=v.avatar_style;byId('cardBio').textContent=v.persona_text;byId('idQuote').textContent='INCIDENT 001: '+v.incident;byId('cardStatus').textContent='AWAITING GABE’S REVIEW';byId('cardFront').hidden=cardFlipped;byId('cardBack').hidden=!cardFlipped;}
+function renderCard(){if(!generated)return;const v=generated;byId('idName').textContent=v.character_name.toUpperCase();byId('cardBackName').textContent=v.character_name.toUpperCase();byId('cardSub').textContent=`AGE ${v.age} · ${v.pronouns.toUpperCase()}`;byId('idRole').textContent=v.division.toUpperCase();byId('idTrait').textContent=v.strength.toUpperCase();byId('cardFlaw').textContent=v.flaw.toUpperCase();byId('cardAvatar').firstChild.textContent=initialLetters(v.character_name);byId('cardAvatar').dataset.theme=v.avatar_style;syncCardPortrait();byId('cardBio').textContent=v.persona_text;byId('idQuote').textContent='INCIDENT 001: '+v.incident;byId('cardStatus').textContent='AWAITING GABE’S REVIEW';byId('cardFront').hidden=cardFlipped;byId('cardBack').hidden=!cardFlipped;}
+function syncCardPortrait(){const avatar=byId('cardAvatar'),preview=byId('cardAvatarImage');if(!avatar||!preview)return;
+ preview.hidden=!portraitDataUrl;if(portraitDataUrl)preview.src=portraitDataUrl;else preview.removeAttribute('src');
+ avatar.classList.toggle('has-portrait',!!portraitDataUrl);const label=avatar.querySelector('small');if(label)label.hidden=!!portraitDataUrl;
+}
+function clearPortrait(){portraitImage=null;portraitDataUrl='';byId('personaPortrait').value='';byId('clearPortrait').disabled=true;syncCardPortrait();setMessage('Character photo removed. Initials will appear on your ID. Your character file is unchanged.');}
+byId('clearPortrait').addEventListener('click',clearPortrait);
+byId('personaPortrait').addEventListener('change',event=>{
+ const f=event.target.files&&event.target.files[0];if(!f)return;
+ if(!['image/png','image/jpeg','image/webp'].includes(f.type)||f.size>6*1024*1024||f.size===0){event.target.value='';setMessage('Please choose a valid PNG, JPG or WEBP character portrait under 6 MB.','error');return;}
+ const reader=new FileReader();reader.onerror=()=>setMessage('Cannot read that portrait. Try another file.','error');
+ reader.onload=()=>{const im=new Image();im.onerror=()=>setMessage('That portrait file could not be decoded.','error');
+  im.onload=()=>{if(im.naturalWidth<64||im.naturalHeight<64||im.naturalWidth>8192||im.naturalHeight>8192){event.target.value='';setMessage('Your character portrait must be between 64 and 8192 pixels wide/tall.','error');return;}
+   const canvas=document.createElement('canvas');canvas.width=500;canvas.height=640;const ctx=canvas.getContext('2d');if(!ctx){setMessage('Portrait preview is not supported here.','error');return;}
+   const scale=Math.max(500/im.naturalWidth,640/im.naturalHeight);const w=im.naturalWidth*scale,h=im.naturalHeight*scale;
+   ctx.fillStyle='#192921';ctx.fillRect(0,0,500,640);ctx.drawImage(im,(500-w)/2,(640-h)/2,w,h);
+   portraitDataUrl=canvas.toDataURL('image/png');portraitImage=new Image();portraitImage.onload=()=>{syncCardPortrait();byId('clearPortrait').disabled=false;setMessage('Character portrait added to your ID preview. It stays in this browser only and will be included in your downloaded PNG.','success');};portraitImage.src=portraitDataUrl;
+  };im.src=String(reader.result);
+ };reader.readAsDataURL(f);
+});
 function copyPersona(){navigator.clipboard?.writeText(generated.persona_text).then(()=>setMessage('Persona description copied. Ready to paste into Dreamjourney.','success')).catch(()=>setMessage('Clipboard unavailable. Turn your card over to copy the text manually.','error'));}
 function savePNG(){if(!generated)return;const g=generated,canvas=document.createElement('canvas');canvas.width=1120;canvas.height=680;const c=canvas.getContext('2d');if(!c)return;
  c.fillStyle='#d7d6ba';c.fillRect(0,0,1120,680);c.fillStyle='#314b3a';c.fillRect(14,14,1092,92);c.fillStyle='#f6efd9';c.font='bold 40px monospace';c.fillText('✚ EDEN MALL / SURVIVOR REGISTRY',50,72);
- c.fillStyle='#b8c5aa';c.fillRect(50,143,238,284);c.fillStyle='#355843';c.fillRect(60,153,218,264);c.fillStyle='#f7efcc';c.font='bold 92px Georgia';c.textAlign='center';c.fillText(initialLetters(g.character_name),169,303);c.textAlign='left';
+ c.fillStyle='#b8c5aa';c.fillRect(50,143,238,284);c.fillStyle='#355843';c.fillRect(60,153,218,264);if(portraitImage?.complete&&portraitImage.naturalWidth){c.save();c.beginPath();c.rect(60,153,218,264);c.clip();const scale=Math.max(218/portraitImage.naturalWidth,264/portraitImage.naturalHeight);const w=portraitImage.naturalWidth*scale,h=portraitImage.naturalHeight*scale;c.drawImage(portraitImage,60+(218-w)/2,153+(264-h)/2,w,h);c.restore();}else{c.fillStyle='#f7efcc';c.font='bold 92px Georgia';c.textAlign='center';c.fillText(initialLetters(g.character_name),169,303);c.textAlign='left';}
  c.fillStyle='#2b3b2d';c.font='bold 23px monospace';c.fillText('RESIDENT NAME',340,180);c.font='55px Georgia';c.fillText(g.character_name.slice(0,30),340,248);c.font='24px monospace';c.fillText('AGE '+g.age+'  /  '+g.pronouns.toUpperCase(),340,291);
  c.font='bold 20px monospace';c.fillText('ASSIGNED DIVISION',340,354);c.font='34px Georgia';c.fillText(g.division.toUpperCase(),340,400);
  c.fillStyle='#627861';c.fillRect(50,478,1020,2);c.fillStyle='#2b3b2d';c.font='bold 21px monospace';c.fillText('STRENGTH: '+g.strength.toUpperCase(),50,526);c.fillText('LIABILITY: '+g.flaw.toUpperCase(),50,570);
@@ -73,7 +93,7 @@ function setupTurnstile(){if(!connected)return;const script=document.createEleme
 byId('submitToGabe').addEventListener('click',async()=>{
  if(!generated){setMessage('Generate a valid character file first.','error');return;}
  if(!byId('edenPublicConsent').checked){setMessage('Please tick the consent box to submit your fictional persona.','error');return;}
- if(!connected){setMessage('DEMO ONLY: Your character was NOT submitted. Connect Supabase and Turnstile to activate Gabe’s inbox.','error');return;}
+ if(!connected){setMessage('DEMO ONLY: Your character was NOT submitted. Turnstile and the secure submission endpoint must be activated before Gabe can receive applications.','error');return;}
  if(!tokens.token){setMessage('Please complete the security check before submitting.','error');return;}
  const btn=byId('submitToGabe');btn.disabled=true;btn.textContent='FILING PERSONNEL RECORD…';
  try{
@@ -90,7 +110,7 @@ const demoLabel='ILLUSTRATIVE DEMO FILES • NOT REAL COMMUNITY SUBMISSIONS';
 const liveLabel='LIVE PUBLIC REGISTRY • APPROVED SUBMISSIONS ONLY';
 async function loadCabinet(){
  const folder=byId('residentFolders');folder.replaceChildren();const loading=document.createElement('div');loading.className='cabinet-empty';loading.textContent='Checking the resident filing cabinet…';folder.appendChild(loading);
- if(!connected){residents=demos;byId('cabinetFoot').textContent=demoLabel+' • Configure Supabase to show real approved personas.';renderFolders();return;}
+ if(!connected){residents=demos;byId('cabinetFoot').textContent=demoLabel+' • Live admissions will appear here once server verification is configured.';renderFolders();return;}
  try{const select='id,resident_number,character_name,age,pronouns,old_world_occupation,arrival_story,strength,flaw,keepsake,division,tone,incident,persona_text,avatar_style,gabe_comment,approved_at';
  const endpoint=url+'/rest/v1/eden_residents?select='+encodeURIComponent(select)+'&status=eq.approved&order=approved_at.desc&limit=100';
  const response=await fetch(endpoint,{headers:{apikey:key}});if(!response.ok)throw new Error('Registry fetch failed: '+response.status);
