@@ -1,4 +1,4 @@
-/* EDEN MALL COMMUNITY REGISTRY — interactive demo + optional Supabase backend.
+/* EDEN MALL COMMUNITY REGISTRY — Supabase-only live admissions + approved-only filing cabinet.
    Public characters are fictional, approved-only, and not tied to a real person's account. */
 (() => {
 'use strict';
@@ -6,9 +6,8 @@ const byId=id=>document.getElementById(id);
 const config=window.EDEN_CONFIG || {};
 const url=(config.supabaseUrl||'').trim().replace(/\/$/,'');
 const key=(config.publishableKey||'').trim();
-const siteKey=(config.turnstileSiteKey||'').trim();
-const connected=/^https:\/\/[\w.-]+\.supabase\.co$/.test(url)&&key.startsWith('sb_publishable_')&&!!siteKey;
-const tokens={token:'',widget:null};
+const connected=/^https:\/\/[\w.-]+\.supabase\.co$/.test(url)&&key.startsWith('sb_publishable_');
+const formLoadedAt=Date.now();
 const status=byId('edenSubmitFeedback');
 const form=byId('edenIntakeForm');
 const inputs=['personaName','personaAge','personaPronouns','personaOccupation','personaArrival','personaTrait','personaFlaw','personaKeepsake','personaRole','personaTone','personaAvatar','personaPatrol'];
@@ -52,7 +51,7 @@ function buildPersona(reroll=false){
  const intro=`${v.character_name}, ${v.age}, used to work as ${v.old_world_occupation} before the outbreak. They reached Eden Mall after they ${v.arrival_story.charAt(0).toLowerCase()+v.arrival_story.slice(1)}. Their greatest strength is ${v.strength.toLowerCase()}, though ${v.flaw.toLowerCase()} tends to complicate things. They still keep ${v.keepsake}. Now a provisional member of ${v.division}, they are trying to build a life inside the mall. ${toneText} Their first encounter: ${encounters[v.patrol]}`;
  generated={...v,incident:situation,persona_text:intro,_incidentIndex:ind};
  entryMade=true;cardFlipped=false;renderCard();byId('rerollIncident').disabled=false;byId('copyPersona').disabled=false;byId('downloadPersonaCard').disabled=false;byId('submitToGabe').disabled=false;
- setMessage(connected?'FILE GENERATED. Review the details and consent, then submit to Gabe for approval.':'PREVIEW MODE. Supabase is available, but public submissions are paused until Turnstile and the secure submission endpoint are configured.');
+ setMessage(connected?'FILE GENERATED. Review the details and consent, then submit to Gabe for approval.':'PREVIEW MODE. Live applications are currently unavailable. Your ID still works locally.');
 }
 function renderCard(){if(!generated)return;const v=generated;byId('idName').textContent=v.character_name.toUpperCase();byId('cardBackName').textContent=v.character_name.toUpperCase();byId('cardSub').textContent=`AGE ${v.age} · ${v.pronouns.toUpperCase()}`;byId('idRole').textContent=v.division.toUpperCase();byId('idTrait').textContent=v.strength.toUpperCase();byId('cardFlaw').textContent=v.flaw.toUpperCase();byId('cardAvatar').firstChild.textContent=initialLetters(v.character_name);byId('cardAvatar').dataset.theme=v.avatar_style;syncCardPortrait();byId('cardBio').textContent=v.persona_text;byId('idQuote').textContent='INCIDENT 001: '+v.incident;byId('cardStatus').textContent='AWAITING GABE’S REVIEW';byId('cardFront').hidden=cardFlipped;byId('cardBack').hidden=!cardFlipped;}
 function syncCardPortrait(){const avatar=byId('cardAvatar'),preview=byId('cardAvatarImage');if(!avatar||!preview)return;
@@ -89,28 +88,28 @@ for(const id of inputs)byId(id).addEventListener('change',updateUnsaved);
 byId('rerollIncident').addEventListener('click',()=>buildPersona(true));
 byId('turnCard').addEventListener('click',()=>{cardFlipped=!cardFlipped;if(generated)renderCard();else {byId('cardFront').hidden=cardFlipped;byId('cardBack').hidden=!cardFlipped;} });
 byId('copyPersona').addEventListener('click',copyPersona);byId('downloadPersonaCard').addEventListener('click',savePNG);
-function setupTurnstile(){if(!connected)return;const script=document.createElement('script');script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';script.async=true;script.onload=()=>{if(!window.turnstile)return;tokens.widget=window.turnstile.render('#edenTurnstile',{sitekey:siteKey,theme:'dark',callback:t=>{tokens.token=t;},'expired-callback':()=>{tokens.token='';},'error-callback':()=>{tokens.token='';}})};script.onerror=()=>setMessage('Security verification could not load. Please check your connection.','error');document.head.appendChild(script);}
 byId('submitToGabe').addEventListener('click',async()=>{
  if(!generated){setMessage('Generate a valid character file first.','error');return;}
- if(!byId('edenPublicConsent').checked){setMessage('Please tick the consent box to submit your fictional persona.','error');return;}
- if(!connected){setMessage('DEMO ONLY: Your character was NOT submitted. Turnstile and the secure submission endpoint must be activated before Gabe can receive applications.','error');return;}
- if(!tokens.token){setMessage('Please complete the security check before submitting.','error');return;}
+ if(!byId('edenPublicConsent').checked){setMessage('Please agree to public display if your character is approved.','error');return;}
+ if(!connected){setMessage('Submissions are unavailable: Supabase settings are missing. Your ID has NOT been submitted.','error');return;}
  const btn=byId('submitToGabe');btn.disabled=true;btn.textContent='FILING PERSONNEL RECORD…';
  try{
   const {patrol,_incidentIndex,...record}=generated;
-  const response=await fetch(url+'/functions/v1/eden-submit',{method:'POST',headers:{'content-type':'application/json','apikey':key},body:JSON.stringify({...record,website:byId('edenWebsite').value,turnstileToken:tokens.token})});
-  const result=await response.json();if(!response.ok)throw new Error(result.error||'Submission failed');
+  const response=await fetch(url+'/functions/v1/eden-submit',{
+   method:'POST',headers:{'content-type':'application/json','apikey':key},
+   body:JSON.stringify({...record,website:byId('edenWebsite').value,startedAt:formLoadedAt,consent:true}),
+  });
+  const result=await response.json();if(!response.ok||result.status!=='pending')throw new Error(result.error||'Submission failed');
   byId('cardNumber').textContent='E-'+String(result.resident_number).padStart(5,'0');byId('cardStatus').textContent='PENDING GABE’S APPROVAL';
   setMessage('FILED SUCCESSFULLY AS E-'+String(result.resident_number).padStart(5,'0')+'. Your file is pending Gabe’s review and is NOT publicly visible yet.','success');
   btn.textContent='✓ FILE SENT TO GABE';entryMade=false;
  }catch(err){setMessage(err.message||'Unable to submit this record. Try again.','error');btn.disabled=false;btn.textContent='📁 SUBMIT TO GABE’S DESK';}
- finally{tokens.token='';if(window.turnstile&&tokens.widget!==null)window.turnstile.reset(tokens.widget);}
 });
 const demoLabel='ILLUSTRATIVE DEMO FILES • NOT REAL COMMUNITY SUBMISSIONS';
 const liveLabel='LIVE PUBLIC REGISTRY • APPROVED SUBMISSIONS ONLY';
 async function loadCabinet(){
  const folder=byId('residentFolders');folder.replaceChildren();const loading=document.createElement('div');loading.className='cabinet-empty';loading.textContent='Checking the resident filing cabinet…';folder.appendChild(loading);
- if(!connected){residents=demos;byId('cabinetFoot').textContent=demoLabel+' • Live admissions will appear here once server verification is configured.';renderFolders();return;}
+ if(!connected){residents=demos;byId('cabinetFoot').textContent=demoLabel+' • Live submissions will appear once connected and approved.';renderFolders();return;}
  try{const select='id,resident_number,character_name,age,pronouns,old_world_occupation,arrival_story,strength,flaw,keepsake,division,tone,incident,persona_text,avatar_style,gabe_comment,approved_at';
  const endpoint=url+'/rest/v1/eden_residents?select='+encodeURIComponent(select)+'&status=eq.approved&order=approved_at.desc&limit=100';
  const response=await fetch(endpoint,{headers:{apikey:key}});if(!response.ok)throw new Error('Registry fetch failed: '+response.status);
@@ -122,5 +121,5 @@ function openFile(r){const dlg=byId('residentFileDialog');byId('fileNumber').tex
 byId('fileClose').addEventListener('click',()=>byId('residentFileDialog').close());byId('residentFileDialog').addEventListener('click',e=>{if(e.target===byId('residentFileDialog'))byId('residentFileDialog').close()});
 byId('cabinetSearch').addEventListener('input',renderFolders);byId('cabinetDivision').addEventListener('change',renderFolders);byId('refreshCabinet').addEventListener('click',loadCabinet);
 byId('edenPublicConsent').addEventListener('change',()=>{if(!byId('edenPublicConsent').checked&&connected)setMessage('Public display consent is required before submitting.');});
-setupTurnstile();loadCabinet();
+loadCabinet();
 })();

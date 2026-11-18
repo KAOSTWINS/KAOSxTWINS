@@ -12,7 +12,7 @@ if(!url||!key||!window.supabase){
 client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'kaostwins-eden-gabe-auth-v1'}});
 async function start(){const res=await client.auth.getSession();session=res.data?.session||null;await display();}
 async function display(){
- if(!session){$('loginBox').classList.remove('hide');$('queueBox').classList.add('hide');show('loginFeedback','Only existing, pre-authorised moderators can sign in.');return;}
+ if(!session){$('loginBox').classList.remove('hide');$('queueBox').classList.add('hide');show('loginFeedback','Enter your invited email address. First-time sign-in creates your account after you verify the email link.');return;}
  try {const check=await client.rpc('eden_is_moderator');
   if(check.error||check.data!==true){$('loginBox').classList.remove('hide');$('queueBox').classList.add('hide');show('loginFeedback','This account has no moderator clearance. Request access from the site owner.');return;}
   $('loginBox').classList.add('hide');$('queueBox').classList.remove('hide');show('modLabel','SIGNED IN AS '+session.user.email);await refresh();
@@ -27,8 +27,8 @@ async function setReview(id,status,name,note){if(status==='approved'&&(note.trim
  if(result.error){show('queueFeedback','Could not update: '+result.error.message);return;}
  show('queueFeedback',name+(status==='approved'?' APPROVED. This record is now publicly visible.':' REJECTED. This record remains private.'));await refresh();}
 $('sendLogin').addEventListener('click',async()=>{const email=$('moderatorEmail').value.trim();if(!email||!/^\S+@\S+\.\S+$/.test(email)){show('loginFeedback','Enter a valid moderator email.');return;}
- show('loginFeedback','Sending sign-in link…');const result=await client.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});
- show('loginFeedback',result.error?'Could not request sign-in: '+result.error.message:'If this email is authorised, a secure sign-in link is on its way.');});
+ show('loginFeedback','Sending sign-in link…');const result=await client.auth.signInWithOtp({email,options:{shouldCreateUser:true,emailRedirectTo:location.origin+location.pathname}});
+ show('loginFeedback',result.error?'Could not request sign-in: '+result.error.message:'If this email can receive Supabase sign-in messages, check your inbox for a secure one-time link. Only invited, verified accounts can access the queue.');});
 $('refreshQueue').addEventListener('click',refresh);$('signOut').addEventListener('click',async()=>{await client.auth.signOut();session=null;await display();});
 client.auth.onAuthStateChange((_event,newSession)=>{session=newSession;if(newSession)setTimeout(display,0);});start();
 })();
