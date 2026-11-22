@@ -1,0 +1,20 @@
+KAOSTWINS • THE BLOODY NUISANCE
+LAUNCH EDITION QA RECORD — 22 NOVEMBER 2026
+
+VERIFIED IN THIS BUILD
+- 21 source-defined navigable chart locations and 7 treasure clue entries.
+- Existing V1 fully playable voyage logic preserved; seven-stage puzzle engine and journal not replaced.
+- New CINEMATIC story panel navigation, age-acknowledged gallery, 2 supplied videos, and approved beach images present in build files.
+- Character wanted posters and Bastard cabinet retained.
+- Approved ornate treasure certificate is included as the PNG download target, and matches the image file.
+- Original rejected Neron-tail experiments are absent from supplied images. Final approved thigh-up Neron crop selected.
+- Private edition has exactly 2 user-provided additional adult images; public-safe edition contains neither.
+- Every static reference to a packaged asset resolves. All JavaScript files pass node --check; images and MP4s decode structurally; ZIP CRC checked.
+
+NOT CLAIMED AS VERIFIED
+- This environment's headless Chromium blocks local and loopback URLs (ERR_BLOCKED_BY_ADMINISTRATOR). New browser-interaction and pixel-by-pixel mobile checks could not be completed for this upgraded edition. The original V1 game did pass a full browser walkthrough previously. Test the deployed URL before public announcement.
+
+SECURITY / DEPLOYMENT
+- The local 18+ acknowledgment is not access control. Private nude images are stored in the COMPLETE edition only.
+- Any static hosted file can be accessed directly if its URL is known. Use PUBLIC SAFE for a normal GitHub Pages launch, or access-controlled hosting for private artwork.
+- Treasure is an optional digital prize only, not a monetary award. The certificate's static file URL is not secret on a static host.
