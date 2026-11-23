@@ -111,7 +111,7 @@ certificateButton.addEventListener('click',async()=>{
   const ctx=canvas.getContext('2d');if(!ctx)throw Error('Your browser does not support this parchment.');
   ctx.drawImage(paper,0,0,canvas.width,canvas.height);ctx.textAlign='center';ctx.textBaseline='middle';
   const serif='"Cormorant Garamond", Georgia, serif',sans='"DM Sans", Arial, sans-serif';
-  sealText(ctx,'✦ THE CROWN OF VALEDORN ✦',768,266,1050,24,{family:sans,weight:'700',minSize:22,colour:'#8c4940'});
+  // The wax impression remains clear of type. The House Vere title begins below the seal.
   sealText(ctx,'H O U S E   V E R E',768,328,1100,81,{family:serif,weight:'600',minSize:55,colour:'#3d2024'});
   sealText(ctx,'CERTIFICATE OF THE FOURTH SEAL',768,383,1080,26,{family:sans,weight:'700',minSize:21,colour:'#865147'});
   ctx.strokeStyle='#995e51';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(405,408);ctx.lineTo(710,408);ctx.moveTo(826,408);ctx.lineTo(1131,408);ctx.stroke();

@@ -81,3 +81,8 @@ dialog{background:#140e16;border:1px solid #a88663;color:var(--paper);padding:0;
 .certificate-decree{margin-top:3%}
 @media(max-width:1050px){.document-ink{inset:22.5% 10% 6%}}
 @media(max-width:570px){.document-ink{inset:23% 10% 5%}.certificate-decree{margin-top:2%}}
+
+/* Fourth Seal V4: remove the ornamental kicker from beneath the wax emblem.
+   Preserve the exact title position below the impression at all breakpoints. */
+.certificate-kicker{display:none}
+.certificate-house{margin-top:2.6%}
