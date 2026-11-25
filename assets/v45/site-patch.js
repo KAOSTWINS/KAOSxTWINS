@@ -1,7 +1,7 @@
 /* V45 root integration; preserves previous routes and scripts. */
-(()=>{const release='V45 · THE SOCIETY & THE FRONTWOMAN';function fix(){
+(()=>{const release='V46 · THE GILDED EDITION';function fix(){
 const f=document.querySelector('body>footer');if(f){f.querySelectorAll('[class*="release-flag"]').forEach(x=>x.remove());const n=f.querySelector('.copyright span');if(n)n.textContent='© 2026 KAOSTWINS · '+release;const old=f.querySelector('.v24-footnote');if(old)for(const p of old.querySelectorAll('p,small'))if(/\bV\d+(?:\.\d+)?\b|\bVERSION\b/i.test(p.textContent))p.remove()}
-document.documentElement.dataset.kaosVersion='45';
+document.documentElement.dataset.kaosVersion='46';
 const card=document.querySelector('.projects [data-world="vow"]');if(card)card.remove();
 const grid=document.querySelector('#worlds .projects');if(grid&&!grid.querySelector('[data-world="zea"]')){const a=document.createElement('a');a.href='zea/';a.className='project';a.dataset.cat='spotlight';a.dataset.world='zea';a.style.setProperty('--img',"url('assets/v45/zea-07.webp')");a.style.setProperty('--theme','#e63d68');a.innerHTML='<div class="contents"><div class="tag">PUBLISHED · CHARACTER SPOTLIGHT</div><h3>ZEA<br>LEVALLAN</h3><p>Lead mic. Lead guitar. Mechanic. Absolutely nobody’s side character.</p><div class="project-foot"><span class="mini-label">Full dossier</span><span class="mini-label">Play now</span></div></div>';const r=grid.querySelector('[data-world="ronan"]');if(r)r.after(a);else grid.append(a)}
 const d=document.querySelector('.projects [data-world="dragon"]');if(d){d.querySelectorAll('.kaos-coming-soon-label').forEach(n=>n.remove());d.setAttribute('aria-label','Dragon F☆ckers · Published · Explore');const tag=d.querySelector('.tag');if(tag)tag.textContent='PUBLISHED · ORIGINAL BAND';const p=d.querySelector('.contents p');if(p)p.textContent='Five musicians. One three-legged feline tyrant. Graham’s last functioning nerve.';}
