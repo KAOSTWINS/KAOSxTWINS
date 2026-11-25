@@ -1,0 +1,204 @@
+{
+  "POSTERS": [
+    {
+      "src": "../assets/packed/dda7b807863771831c06.webp",
+      "title": "The Vow He Broke",
+      "category": "Story",
+      "desc": "Official world introduction · a promise with consequences"
+    },
+    {
+      "src": "../assets/packed/ff30c000e6c1d294d636.webp",
+      "title": "Four Years. One Broken Promise.",
+      "category": "Story",
+      "desc": "The dramatic opening to Veyrland"
+    },
+    {
+      "src": "../assets/packed/2b8bcded7072c620f4de.webp",
+      "title": "The World & Your Role",
+      "category": "World",
+      "desc": "Pack society, modern Veyrland and player freedom"
+    },
+    {
+      "src": "../assets/packed/e56dee09bf8087d6c549.webp",
+      "title": "Content & Themes",
+      "category": "World",
+      "desc": "Read before entering an adult gothic romance"
+    },
+    {
+      "src": "../assets/packed/fe0659642d9a58965ab0.webp",
+      "title": "The Blackwood & Morozov Houses",
+      "category": "Cast",
+      "desc": "Two powerful Alphas. No easy answers."
+    },
+    {
+      "src": "../assets/packed/506e96f2ea73fd772644.webp",
+      "title": "Aleksandr Morozov",
+      "category": "Cast",
+      "desc": "32 · Dominant Alpha · House Morozov"
+    },
+    {
+      "src": "../assets/packed/e3e22334f3dba6d2ca00.webp",
+      "title": "Cassian Blackwood",
+      "category": "Cast",
+      "desc": "29 · Apex Alpha · House Blackwood"
+    },
+    {
+      "src": "../assets/packed/06ea76a3ba454ba85b41.webp",
+      "title": "Sacha Bellamy",
+      "category": "Cast",
+      "desc": "25 · Omega · Best friend and creative director"
+    },
+    {
+      "src": "../assets/vows/darius_official_profile.webp",
+      "title": "Darius Morozov · The Rebel Alpha",
+      "category": "Cast",
+      "desc": "36 · Dominant Alpha · Elected leader of The Uncrowned · optional route"
+    },
+    {
+      "src": "../assets/packed/10d1b646aea4bb9e9364.webp",
+      "title": "Celeste Voss",
+      "category": "Cast",
+      "desc": "28 · Omega · The childhood sweetheart"
+    },
+    {
+      "src": "../assets/packed/2f175a5782e373fa0d95.webp",
+      "title": "The Supporting Cast",
+      "category": "Cast",
+      "desc": "The people who inherit the consequences"
+    },
+    {
+      "src": "../assets/packed/81f5ac9c84b55e8d6a8c.webp",
+      "title": "Aleksandr · The Promise",
+      "category": "Dossiers",
+      "desc": "The Dominant Alpha and his complicated loyalties"
+    },
+    {
+      "src": "../assets/packed/2c2d908efe921a215def.webp",
+      "title": "Cassian · Fate Chose",
+      "category": "Dossiers",
+      "desc": "The Apex Alpha who would rather earn your trust"
+    }
+  ],
+  "DARK": [
+    {
+      "src": "../assets/packed/a793696ea66001123f72.webp",
+      "title": "Hydrangeas, Apparently a Workplace Hazard",
+      "category": "Cassian",
+      "desc": "Thornvale's terrifying Apex Alpha was last seen conspiring with several thousand flowers."
+    },
+    {
+      "src": "../assets/packed/e0431c8d913143378088.webp",
+      "title": "The Hydrangea Incident, Part II",
+      "category": "Cassian",
+      "desc": "Our florist refuses to explain why this is becoming a series."
+    },
+    {
+      "src": "../assets/packed/6cb8bdfc0d218a922881.webp",
+      "title": "A Very Suspicious Garden Visit",
+      "category": "Cassian",
+      "desc": "Cassian has been informed that lying in the flowerbeds is not an official pack duty."
+    },
+    {
+      "src": "../assets/packed/27f8e64ffe2ad9cb95be.webp",
+      "title": "The Garden Has Filed a Complaint",
+      "category": "Cassian",
+      "desc": "No roses were harmed. The hydrangeas, however, have stories."
+    },
+    {
+      "src": "../assets/packed/08c553711bf0883a4a9a.webp",
+      "title": "Botanical Evidence, Exhibit Five",
+      "category": "Cassian",
+      "desc": "This archive is supervised by nobody qualified to remain impartial."
+    },
+    {
+      "src": "../assets/packed/6d4f2955351f0a53f764.webp",
+      "title": "Midnight at the Conservatory",
+      "category": "Cassian",
+      "desc": "Emerald eyes, rain on the glass, and questions that are none of our business."
+    },
+    {
+      "src": "../assets/packed/b404f7ce19b1393506d7.webp",
+      "title": "Silk, Secrets and Thornvale",
+      "category": "Cassian",
+      "desc": "The Blackwood legal office has declined to comment."
+    },
+    {
+      "src": "../assets/packed/0cc1ffea0e35dfc79729.webp",
+      "title": "Candlelight Confidential",
+      "category": "Cassian",
+      "desc": "An Apex Alpha discovers a camera in the worst possible place."
+    },
+    {
+      "src": "../assets/packed/afe587b349775a6aaa35.webp",
+      "title": "The Roses Are Not an Apology",
+      "category": "Aleksandr",
+      "desc": "Morozov Manor confirms these were decorative arrangements. The public remains unconvinced."
+    },
+    {
+      "src": "../assets/packed/d93eedc0d49a0b58a91a.webp",
+      "title": "A Very Expensive Bad Decision",
+      "category": "Aleksandr",
+      "desc": "One man. Several hundred roses. Outstanding emotional paperwork."
+    },
+    {
+      "src": "../assets/packed/e9edc760cf8c09b62055.webp",
+      "title": "Roses, Regrets and Reputation Management",
+      "category": "Aleksandr",
+      "desc": "The publicist has been asked to leave the room."
+    },
+    {
+      "src": "../assets/packed/3324798be04805c99777.webp",
+      "title": "Red Petals, Red Flags",
+      "category": "Aleksandr",
+      "desc": "Nothing says complicated as elegantly as a flower budget."
+    },
+    {
+      "src": "../assets/packed/7c1ed3a2d3636b2cee3e.webp",
+      "title": "Couture After Closing",
+      "category": "Sacha",
+      "desc": "The Velvet Hour has officially extended its office hours to whenever Sacha feels fabulous."
+    },
+    {
+      "src": "../assets/packed/38c44e7412215388e715.webp",
+      "title": "Scandal at the Sewing Table",
+      "category": "Sacha",
+      "desc": "A measuring tape has requested anonymity."
+    },
+    {
+      "src": "../assets/packed/c58c4da691af02e2df7b.webp",
+      "title": "The Best Friend Has Entered the Chat",
+      "category": "Sacha",
+      "desc": "Designer, confidant and the only person here with a functioning emotional compass."
+    },
+    {
+      "src": "../assets/packed/3927f406aca5718276c7.webp",
+      "title": "Gold Thread and Terrible Advice",
+      "category": "Sacha",
+      "desc": "Our legal department says this qualifies as a fashion emergency."
+    },
+    {
+      "src": "../assets/packed/5b4be2833388b208319f.webp",
+      "title": "One More Fitting, Darling",
+      "category": "Sacha",
+      "desc": "Sacha calls it work. The photographer calls it an exclusive."
+    },
+    {
+      "src": "../assets/packed/6511be16b1836c2863c0.webp",
+      "title": "The Atelier Has No Chill",
+      "category": "Sacha",
+      "desc": "The curtains are velvet. The gossip is considerably more expensive."
+    },
+    {
+      "src": "../assets/vows/darius_sunflower_editorial.webp",
+      "title": "Sunflowers After Hours",
+      "category": "Darius",
+      "desc": "Darius Morozov, 36, founder of The Uncrowned. Apparently constitutional reform requires an impressive number of bare shoulders."
+    },
+    {
+      "src": "../assets/packed/bd347990ee0ae7a72abd.webp",
+      "title": "Three Hearts, Absolutely No Peace",
+      "category": "Ensemble",
+      "desc": "Two Alphas and one best friend. The editorial department is requesting hazard pay."
+    }
+  ]
+}
