@@ -1,0 +1,69 @@
+name: Correct FABLE portraits
+on:
+  push:
+    branches: [main]
+    paths: ['fable/fable-portrait-corrections.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-portrait-corrections
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify the five approved portraits and restore their gallery cards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib, re
+          root = Path('fable')
+          pack = root / 'fable-portrait-corrections.zip'
+          approved = {
+              'hector-hogg': 'dcd76261826345e5ee6c98f7ac33166123a619e4875eda4ef8e662206c23631c',
+              'montgomery-fizz': '6d17f11ac7f0f8f952341b4520520019bc55032fc774282eb88953a0f23a4a37',
+              'sebastian-coppers': 'ef9a1f361467eff761e0519f52ef3555d493fcbefb7247951b89811f89630670',
+              'zea-levallan': '158bb2bfec83210396073c6f7b01ddce017fe2f671d08be6e9953bce39a69423',
+              'ronan-levallan': 'a04b750f5fbfcb7dda02a3d9fbce81e110c485d6ba536afb5fac2709678f06de',
+          }
+          names = {f'assets/characters/char.{k}.webp': v for k,v in approved.items()}
+          pending = {}
+          with ZipFile(pack) as z:
+              assert len(z.infolist()) == 5 and set(z.namelist()) == set(names)
+              for n, digest in names.items():
+                  assert 0 < z.getinfo(n).file_size < 1024**2
+                  data = z.read(n)
+                  assert data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+                  assert hashlib.sha256(data).hexdigest() == digest, n
+                  pending[n] = data
+          page = root / 'characters.html'
+          html = page.read_text(encoding='utf-8')
+          for k in approved:
+              pattern = r'<article class="portrait" id="' + re.escape(k) + r'"[\s\S]*?</article>'
+              def restore(m):
+                  card = m.group(0)
+                  assert card.count('src="assets/placeholder.svg"') == 1
+                  assert card.count(' · Portrait correction pending') == 1
+                  return card.replace('src="assets/placeholder.svg"', f'src="assets/characters/char.{k}.webp?v=052"').replace(' · Portrait correction pending','')
+              html, count = re.subn(pattern, restore, html)
+              assert count == 1, k
+          for n, data in pending.items():
+              target = root / n
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+          page.write_text(html, encoding='utf-8')
+          pack.unlink()
+          PY
+      - name: Stage correction on isolated branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-portrait-corrections-${GITHUB_RUN_ID}"
+          git add -- fable/characters.html fable/assets/characters/char.hector-hogg.webp fable/assets/characters/char.montgomery-fizz.webp fable/assets/characters/char.sebastian-coppers.webp fable/assets/characters/char.zea-levallan.webp fable/assets/characters/char.ronan-levallan.webp fable/fable-portrait-corrections.zip
+          git commit -m "Restore five approved FABLE character masters"
+          git push origin HEAD
