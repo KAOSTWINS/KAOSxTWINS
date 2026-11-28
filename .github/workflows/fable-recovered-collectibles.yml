@@ -1,0 +1,90 @@
+name: Import FABLE recovered collectible art
+on:
+  push:
+    branches: [main]
+    paths: ['fable/fable-art-*-v081.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-recovered-collectibles-v081
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify and prepare 125 collectible images
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from collections import Counter
+          import hashlib, json, re, os
+          root = Path('fable')
+          packs = json.loads('{"fable-art-treasures-v081.zip":{"sha":"57f9fd4e4dba738f5e7c1462cec81cbe871f4c4ddc3b4cd14817d54db7a597bf","counts":{"HOARD":28}},"fable-art-destiny-v081.zip":{"sha":"fe6dda1baa28892575260a2becd3e951f96cf2f183d80f9d642adff8465bfaff","counts":{"FATE":31}},"fable-art-achievements-v081.zip":{"sha":"cad3f805207995fa013d7dddfc8bc5d597275fc3703d586e44ab0ab0889d2cfd","counts":{"ACH":45}},"fable-art-honours-v081.zip":{"sha":"124af61054958636d49661f6a187f2f771278618403980cb0074d0868308fbba","counts":{"CERT":19,"DUNG":1,"DOOR":1}}}')
+          if not all((root / name).is_file() for name in packs):
+              print('Waiting for all four verified artwork ZIPs.')
+              with open(os.environ['GITHUB_ENV'], 'a') as env:
+                  env.write('FABLE_IMPORT_READY=false\n')
+              raise SystemExit(0)
+          catalogue_file = root / 'catalogue.js'
+          catalogue_source = catalogue_file.read_text(encoding='utf-8')
+          catalogue = json.loads(catalogue_source.strip().split('=', 1)[1].rstrip(';'))
+          categories = {r['token']: r['category'] for r in catalogue}
+          assert len(categories) == 244
+          artwork_file = root / 'artwork.js'
+          artwork_source = artwork_file.read_text(encoding='utf-8')
+          match = re.search(r'window\.FABLE_ARTWORK_UPDATES\s*=\s*(\{[^\n]*\});', artwork_source)
+          assert match, 'Existing artwork update map not found'
+          old = json.loads(match.group(1))
+          updates, images = {}, {}
+          for name, spec in packs.items():
+              p = root / name
+              assert hashlib.sha256(p.read_bytes()).hexdigest() == spec['sha'], name + ': archive checksum mismatch'
+              with ZipFile(p) as z:
+                  assert z.testzip() is None
+                  mapping = json.loads(z.read('artwork-map.json'))
+                  assert len(mapping) == sum(spec['counts'].values())
+                  assert Counter(categories[t] for t in mapping) == Counter(spec['counts'])
+                  assert len(z.infolist()) == len(mapping) + 1
+                  assert set(z.namelist()) == {'artwork-map.json', *mapping.values()}
+                  for t, path in mapping.items():
+                      assert re.fullmatch(r'[a-f0-9]{64}', t)
+                      assert t not in updates and t not in old
+                      assert re.fullmatch(r'assets/collectibles/[a-f0-9]{24}\.webp', path)
+                      assert path not in images and not (root / path).exists()
+                      b = z.read(path)
+                      assert 12 < len(b) < 1024**2 and b[:4] == b'RIFF' and b[8:12] == b'WEBP'
+                      updates[t], images[path] = path, b
+          assert len(updates) == len(images) == 125
+          for path, b in images.items():
+              target = root / path
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(b)
+          old.update(updates)
+          new_source = artwork_source[:match.start(1)] + json.dumps(old, separators=(',', ':')) + artwork_source[match.end(1):]
+          artwork_file.write_text(new_source, encoding='utf-8')
+          for page in root.glob('*.html'):
+              html = page.read_text(encoding='utf-8')
+              updated = re.sub(r'(?<=src=")artwork\.js(?:\?v=\d+)?(?=")', 'artwork.js?v=081', html)
+              if updated != html:
+                  page.write_text(updated, encoding='utf-8')
+          assert catalogue_file.read_text(encoding='utf-8') == catalogue_source
+          for name in packs:
+              (root / name).unlink()
+          with open(os.environ['GITHUB_ENV'], 'a') as env:
+              env.write('FABLE_IMPORT_READY=true\n')
+          print('Verified 125 new images; existing catalogue unchanged.')
+          PY
+      - name: Stage artwork import for review
+        if: env.FABLE_IMPORT_READY == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-recovered-collectibles-${GITHUB_RUN_ID}"
+          git add -- fable/assets/collectibles fable/artwork.js fable/*.html fable/fable-art-*-v081.zip
+          git commit -m "Import 125 recovered FABLE collectible illustrations"
+          git push origin HEAD
