@@ -60,7 +60,7 @@ const resetDialog=$('resetDialog');let resetStage=0;
 function showResetStage(stage){
 resetStage=stage;
 $('resetTitle').textContent=stage===1?'Are you sure?':'Are you fucking sure sure?';
-$('resetMessage').textContent=stage===1?'This clears the active Hero only, including their portrait, profile, inventory, collectibles, passport stamps and journal. Other Hero slots are kept. Export a backup first if you might return to this Hero.':'This is your final warning, Hero. Your current adventure will be erased. Only a previously exported backup can restore it. Scarlet is not digging through the ashes for you.';
+$('resetMessage').textContent=stage===1?'This clears the active Hero only, including their portrait, profile, inventory, collectibles, passport stamps and journal. Other Hero slots are kept. Published Hall entries are not withdrawn; copy their private recovery keys before clearing a Hero. Export a backup first if you might return to this Hero.':'This is your final warning, Hero. Your current adventure will be erased. Only a previously exported backup can restore it. Scarlet is not digging through the ashes for you.';
 $('resetContinue').textContent=stage===1?'Yes, start a new adventure':'Yes. Erase my progress.';
 $('resetBackup').hidden=stage!==1;
 $('resetCancel').textContent=stage===1?'Cancel, keep my adventure':'No, keep my bloody adventure';
