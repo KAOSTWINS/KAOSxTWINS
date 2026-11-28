@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Verify and prepare 125 collectible images
+      - name: Verify and prepare 128 collectible images
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -24,9 +24,9 @@ jobs:
           from collections import Counter
           import hashlib, json, re, os
           root = Path('fable')
-          packs = json.loads('{"fable-art-treasures-v081.zip":{"sha":"57f9fd4e4dba738f5e7c1462cec81cbe871f4c4ddc3b4cd14817d54db7a597bf","counts":{"HOARD":28}},"fable-art-destiny-v081.zip":{"sha":"fe6dda1baa28892575260a2becd3e951f96cf2f183d80f9d642adff8465bfaff","counts":{"FATE":31}},"fable-art-achievements-v081.zip":{"sha":"cad3f805207995fa013d7dddfc8bc5d597275fc3703d586e44ab0ab0889d2cfd","counts":{"ACH":45}},"fable-art-honours-v081.zip":{"sha":"124af61054958636d49661f6a187f2f771278618403980cb0074d0868308fbba","counts":{"CERT":19,"DUNG":1,"DOOR":1}}}')
+          packs = json.loads('{"fable-art-treasures-v081.zip":{"sha":"57f9fd4e4dba738f5e7c1462cec81cbe871f4c4ddc3b4cd14817d54db7a597bf","counts":{"HOARD":28}},"fable-art-destiny-v081.zip":{"sha":"fe6dda1baa28892575260a2becd3e951f96cf2f183d80f9d642adff8465bfaff","counts":{"FATE":31}},"fable-art-achievements-v081.zip":{"sha":"cad3f805207995fa013d7dddfc8bc5d597275fc3703d586e44ab0ab0889d2cfd","counts":{"ACH":45}},"fable-art-final-three-v081.zip":{"sha":"948c217e2234f60e67ff74da322d2c1ef4542ad729ec65c66aac8e0e17c564d8","counts":{"BEAST":1,"DOOR":2}},"fable-art-honours-v081.zip":{"sha":"124af61054958636d49661f6a187f2f771278618403980cb0074d0868308fbba","counts":{"CERT":19,"DUNG":1,"DOOR":1}}}')
           if not all((root / name).is_file() for name in packs):
-              print('Waiting for all four verified artwork ZIPs.')
+              print('Waiting for all five verified artwork ZIPs.')
               with open(os.environ['GITHUB_ENV'], 'a') as env:
                   env.write('FABLE_IMPORT_READY=false\n')
               raise SystemExit(0)
@@ -59,7 +59,7 @@ jobs:
                       b = z.read(path)
                       assert 12 < len(b) < 1024**2 and b[:4] == b'RIFF' and b[8:12] == b'WEBP'
                       updates[t], images[path] = path, b
-          assert len(updates) == len(images) == 125
+          assert len(updates) == len(images) == 128
           for path, b in images.items():
               target = root / path
               target.parent.mkdir(parents=True, exist_ok=True)
@@ -77,7 +77,7 @@ jobs:
               (root / name).unlink()
           with open(os.environ['GITHUB_ENV'], 'a') as env:
               env.write('FABLE_IMPORT_READY=true\n')
-          print('Verified 125 new images; existing catalogue unchanged.')
+          print('Verified 128 new images; existing catalogue unchanged.')
           PY
       - name: Stage artwork import for review
         if: env.FABLE_IMPORT_READY == 'true'
@@ -86,5 +86,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "fable-recovered-collectibles-${GITHUB_RUN_ID}"
           git add -- fable/assets/collectibles fable/artwork.js fable/*.html fable/fable-art-*-v081.zip
-          git commit -m "Import 125 recovered FABLE collectible illustrations"
+          git commit -m "Import 128 recovered FABLE collectible illustrations"
           git push origin HEAD
