@@ -1,0 +1,73 @@
+name: Import FABLE artwork
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'fable/fable-art-characters.zip'
+      - 'fable/fable-art-collectibles.zip'
+      - 'fable/fable-art-world.zip'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-artwork-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Validate and extract only FABLE public WebP artwork
+        id: extract
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          from zipfile import ZipFile
+          import os, re
+          root = Path('fable')
+          packs = {
+              'fable-art-characters.zip': (74, r'assets/characters/[a-z0-9.\-]+\.webp'),
+              'fable-art-collectibles.zip': (116, r'assets/collectibles/[a-f0-9]{24}\.webp'),
+              'fable-art-world.zip': (30, r'assets/(?:world/[a-z0-9.\-]+\.webp|cover\.webp)'),
+          }
+          if not all((root / n).is_file() for n in packs):
+              print('Waiting for all three artwork archives.')
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                  f.write('ready=false\n')
+              raise SystemExit(0)
+          pending = {}
+          for name, (count, pattern) in packs.items():
+              with ZipFile(root / name) as archive:
+                  infos = archive.infolist()
+                  assert len(infos) == count, name
+                  assert sum(i.file_size for i in infos) < 30 * 1024**2, name
+                  for item in infos:
+                      n = item.filename
+                      assert re.fullmatch(pattern, n) and '..' not in PurePosixPath(n).parts and n not in pending, n
+                      assert 0 < item.file_size < 5 * 1024**2, n
+                      data = archive.read(item)
+                      assert data[:4] == b'RIFF' and data[8:12] == b'WEBP', n
+                      pending[n] = data
+          assert len(pending) == 220
+          for name, data in pending.items():
+              target = root / name
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+          for name in packs:
+              (root / name).unlink()
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('ready=true\n')
+          PY
+      - name: Create isolated artwork import branch
+        if: steps.extract.outputs.ready == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-artwork-import-${GITHUB_RUN_ID}"
+          git add -- fable/assets fable/fable-art-characters.zip fable/fable-art-collectibles.zip fable/fable-art-world.zip
+          git commit -m "Import 220 FABLE public artwork assets"
+          git push origin HEAD
