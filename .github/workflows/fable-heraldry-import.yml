@@ -1,0 +1,46 @@
+name: Import FABLE heraldry
+on:
+  push:
+    branches: [main]
+    paths: ['fable/fable-heraldry.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-heraldry-import
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Validate approved heraldry archive
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          from zipfile import ZipFile
+          root = Path('fable')
+          pack = root / 'fable-heraldry.zip'
+          assert hashlib.sha256(pack.read_bytes()).hexdigest() == 'dbcaf9ddb377bba013021b7dfe265f4baf96ddff12e0d0599a60a9dd3b79d1ae'
+          names = ["assets/heraldry/bowerstone.webp","assets/heraldry/bloodstone.webp","assets/heraldry/oakvale.webp","assets/heraldry/brightwall.webp","assets/heraldry/knothole-glade.webp","assets/heraldry/wraithmarsh.webp","assets/heraldry/bowerstone-palace.webp","assets/heraldry/bowerstone-old-town.webp","assets/heraldry/bowerstone-market.webp","assets/heraldry/millfields.webp","assets/heraldry/royal-mausoleum.webp","assets/heraldry/bloodstone-harbour.webp","assets/heraldry/mother-oak.webp","assets/heraldry/oldwood.webp","assets/heraldry/brightwall-academy.webp","assets/heraldry/infinite-library.webp","assets/heraldry/crucible.webp","assets/heraldry/gallows-end.webp","assets/heraldry/bent-sword.webp","assets/heraldry/cock-and-crown.webp","assets/heraldry/ink-and-bastard.webp","assets/heraldry/quill-and-calamity.webp","assets/heraldry/daily-bollocks.webp","assets/heraldry/gilded-ledger.webp","assets/heraldry/crows-rest.webp","assets/heraldry/bitter-fortune.webp","assets/heraldry/rookwood-hold.webp","assets/heraldry/grimshaw.webp","assets/heraldry/chapel-of-the-eternal-shadow.webp","assets/heraldry/crown-of-albion.webp","assets/heraldry/salty-bastards.webp","assets/heraldry/blackbirds.webp","assets/heraldry/velvet-hand.webp","assets/heraldry/blackroot-pack.webp","assets/heraldry/holy-church-of-avo.webp","assets/heraldry/order-of-skorm.webp","assets/heraldry/old-faith.webp","assets/heraldry/keepers-of-the-crimson-veil.webp","assets/heraldry/order-of-the-holy-chicken.webp","assets/heraldry/church-of-the-chosen-bastard.webp","assets/heraldry/brotherhood-of-the-sacred-cheese.webp","assets/heraldry/blue-cheese-reformation.webp","assets/heraldry/church-of-the-immaculate-bollock.webp","assets/heraldry/society-of-the-prematurely-deceased.webp"]
+          with ZipFile(pack) as z:
+              assert len(z.infolist()) == 44 and set(z.namelist()) == set(names)
+              for name in names:
+                  data = z.read(name)
+                  assert 0 < len(data) < 2 * 1024**2 and data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+                  target = root / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(data)
+          pack.unlink()
+          PY
+      - name: Commit artwork to isolated import branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-heraldry-import-${GITHUB_RUN_ID}"
+          git add -- fable/assets/heraldry fable/fable-heraldry.zip
+          git commit -m "Add 44 approved Albion heraldry assets"
+          git push origin HEAD
