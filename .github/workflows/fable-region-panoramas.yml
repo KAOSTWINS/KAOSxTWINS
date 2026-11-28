@@ -1,0 +1,55 @@
+name: Import FABLE regional panoramas
+on:
+  push:
+    branches: [main]
+    paths: ['fable/fable-region-panoramas.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-region-panoramas
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Verify and install the six original region panoramas
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          from zipfile import ZipFile
+          root = Path('fable')
+          pack = root / 'fable-region-panoramas.zip'
+          assert hashlib.sha256(pack.read_bytes()).hexdigest() == 'b6877856379a157a0a03feabf214252d9a85da62610e8ac9199a94614fdea8fe'
+          regions = ["bowerstone","bloodstone","oakvale","brightwall","knothole-glade","wraithmarsh"]
+          names = {f'assets/world/region-{r}.webp' for r in regions}
+          page = root / 'atlas.html'
+          html = page.read_text(encoding='utf-8')
+          with ZipFile(pack) as z:
+              assert len(z.infolist()) == 6 and set(z.namelist()) == names
+              for r in regions:
+                  name = f'assets/world/region-{r}.webp'
+                  data = z.read(name)
+                  assert 0 < len(data) < 2 * 1024**2 and data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+                  target = root / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(data)
+                  title = r.replace('-', ' ').title()
+                  marker = f'<!-- region-panorama:{r} -->'
+                  assert html.count(marker) == 1, r
+                  html = html.replace(marker, f'<figure class="region-panorama"><a href="{name}" aria-label="View full {title} landscape"><img src="{name}?v=055" alt="{title} regional panorama" loading="lazy" width="1672" height="941"></a><figcaption>Regional panorama · KAOSTWINS</figcaption></figure>')
+          page.write_text(html, encoding='utf-8')
+          pack.unlink()
+          PY
+      - name: Stage panorama import on its own branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-region-panoramas-${GITHUB_RUN_ID}"
+          git add -- fable/assets/world/region-*.webp fable/atlas.html fable/fable-region-panoramas.zip
+          git commit -m "Install six original high-resolution regional panoramas"
+          git push origin HEAD
