@@ -1,0 +1,46 @@
+name: Import FABLE creator portraits
+on:
+  push:
+    branches: [main]
+    paths: ['fable/fable-creator-portraits.zip']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: fable-creator-portraits
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Validate and extract the two supplied creator portraits
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib
+          root = Path('fable')
+          pack = root / 'fable-creator-portraits.zip'
+          assert hashlib.sha256(pack.read_bytes()).hexdigest() == 'e04920bd2e7bcf4ec3e66fd003b7a61a2dea09fbe47a9e25a9e9eb28738b9253'
+          names = {'assets/creators/stormfall.webp', 'assets/creators/avenoire.webp'}
+          with ZipFile(pack) as z:
+              assert len(z.infolist()) == 2 and set(z.namelist()) == names
+              for n in sorted(names):
+                  data = z.read(n)
+                  assert 0 < len(data) < 1024**2 and data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+                  target = root / n
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(data)
+          pack.unlink()
+          PY
+      - name: Stage creator portrait import
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "fable-creator-portraits-${GITHUB_RUN_ID}"
+          git add -- fable/assets/creators fable/fable-creator-portraits.zip
+          git commit -m "Add Stormfall and avenoire profile portraits"
+          git push origin HEAD
