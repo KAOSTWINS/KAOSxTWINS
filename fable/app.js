@@ -72,9 +72,9 @@ $('resetBackup').onclick=()=>$('export').click();
 $('resetContinue').onclick=()=>{
 if(resetStage===1){showResetStage(2);return;}
 if(resetStage!==2||redeemBusy||importBusy||window.FABLE_HERO_UI?.busy?.())return;
-const fresh=freshAdventure();
-if(!persistAdventure(fresh)){$('resetMessage').textContent='Browser storage could not be updated. Your adventure has not been erased. Please export a backup and try again.';return;}
-state=fresh;active='ALL';$('filter').value='all';$('search').value='';$('code').value='';$('journalStatus').textContent='';feedback('');renderProfile();render();
+const fresh=freshAdventure(),freshId=newSlotId();
+if(!persistAdventure(fresh,freshId)){$('resetMessage').textContent='Browser storage could not be updated. Your adventure has not been erased. Please export a backup and try again.';return;}
+state=fresh;slotId=freshId;active='ALL';$('filter').value='all';$('search').value='';$('code').value='';$('journalStatus').textContent='';feedback('');renderProfile();render();
 $('backupStatus').textContent='A new adventure begins. Mother Scarlet: “A clean slate. Let us see what fresh catastrophe you manage this time.”';
 resetDialog.close();
 };
